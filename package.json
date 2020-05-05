@@ -1,0 +1,24 @@
+{
+    "name": "LootDropBot",
+    "version": "1.0.0",
+    "description": "[Link to Trello](https://trello.com/b/NU3IJV5r/droplootbot)",
+    "main": "main.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Thrump/LootDropBot.git"
+    },
+    "keywords": [],
+    "author": "Von Mbah <vonchude@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Thrump/LootDropBot/issues"
+    },
+    "homepage": "https://github.com/Thrump/LootDropBot#readme",
+    "dependencies": {
+        "discord.js": "^12.2.0",
+        "dotenv": "^8.2.0"
+    }
+}
