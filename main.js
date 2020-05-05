@@ -14,6 +14,10 @@ for (const file of commandFiles) {
   client.commands.set(command.name, command);
 }
 
+client.once('ready', () => {
+  console.log('Bot is online!');
+});
+
 client.on('message', (message) => {
   if (!message.content.startsWith(config.prefix) && !message.author.bot) {
     // drop portion
