@@ -7,40 +7,29 @@ class User {
 
     // = Constructor ====================================
     constructor(userid) {
-        this.update(userid);
+        this.userid = userid;
     }
 
     // = Update Methods =================================
-    update(userid) {
-        this.userid = userid
-        knex('user').select('*').where('user_id', '=', this.userid)
-            .then((rows) => {
-                if (rows.length == 0) {
-                    console.log('new user');
-                    this.currency = 0;
-                    const user = {
-                        user_id: this.userid,
-                        currency: this.currency
-                    };
-                    knex('user').insert(user)
-                        .then(console.log("data inserted"))
-                        .catch((err) => { console.log(err); throw err })
-                        .finally(() => { knex.destroy() });
-                } else {
-                    console.log('existing user');
-                    console.log(rows);
-                    this.currency = rows[0].currency
-                    console.log(rows[0].currency);
-                }
-            })
-            .catch((err) => { console.log(err); throw err })
+    async update() {
+        let rows = await knex('user').select('*').where('user_id', '=', this.userid);
+        if (rows.length == 0) {
+            this.currency = 0;
+            const user = {
+                user_id: this.userid,
+                currency: this.currency
+            };
+            await knex('user').insert(user);
+        } else {
+            this.currency = rows[0].currency
+        }
+        return this
     }
 
     updateValue(key, value) {
         knex('user').where('user_id', '=', this.userid).update({
-                [key]: value
-            })
-            .catch((err) => { console.log(err); throw err })
+            [key]: value
+        })
     }
 
     // = Getters and Setters =============================

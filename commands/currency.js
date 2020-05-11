@@ -6,10 +6,10 @@ module.exports = {
         if (message.author.id != require('../config.json').ownerId)
             return message.channel.send('Access Denied');
         let user = new User(message.author.id);
-        setTimeout(function() {
-            user.setCurrency(user.currency + 1);
-            message.channel.send(`Your current currency: ${user.currency}`);
-        }, 100);
+        user.update().then((u) => {
+            u.setCurrency(u.currency + 1);
+            message.channel.send(`Your current currency: ${u.currency}`);
+        })
     }
 
 }
