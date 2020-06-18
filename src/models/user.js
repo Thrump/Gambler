@@ -1,4 +1,4 @@
-const knex = require('../main').knex;
+const knex = require('../../main').knex;
 
 class User {
     // = Column =========================================

@@ -1,5 +1,5 @@
 User = require('../models/user').User
-client = require('../main').client
+client = require('../../main').client
 
 module.exports = {
     name: 'flip',
