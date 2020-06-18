@@ -26,8 +26,8 @@ class User {
         return this
     }
 
-    updateValue(key, value) {
-        knex('user').where('user_id', '=', this.userid).update({
+    async updateValue(key, value) {
+        await knex('user').where('user_id', '=', this.userid).update({
             [key]: value
         })
     }
@@ -35,8 +35,8 @@ class User {
     // = Getters and Setters =============================
 
     setCurrency(currency) {
-        this.updateValue('currency', currency);
         this.currency = currency;
+        this.updateValue('currency', currency);
     }
 }
 
