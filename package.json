@@ -1,36 +1,34 @@
 {
-  "name": "LootDropBot",
-  "version": "1.0.0",
-  "description": "[Link to Trello](https://trello.com/b/NU3IJV5r/droplootbot)",
-  "main": "main.js",
-  "scripts": {
-    "init": "pm2 start main.js",
-    "start": "pm2 start 0",
-    "monitor": "pm2 monit",
-    "restart": "pm2 restart 0",
-    "stop": "pm2 stop 0",
-    "delete": "pm2 delete all",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Thrump/LootDropBot.git"
-  },
-  "keywords": [],
-  "author": "Von Mbah <vonchude@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Thrump/LootDropBot/issues"
-  },
-  "homepage": "https://github.com/Thrump/LootDropBot#readme",
-  "dependencies": {
-    "discord-akairo": "^8.0.0",
-    "discord.js": "^12.2.0",
-    "dotenv": "^8.2.0",
-    "knex": "^0.21.1",
-
-    "pm2": "^4.4.0",
-
-    "sqlite3": "^4.2.0"
-  }
+    "name": "LootDropBot",
+    "version": "1.0.0",
+    "description": "[Link to Trello](https://trello.com/b/NU3IJV5r/droplootbot)",
+    "main": "main.js",
+    "scripts": {
+        "init": "pm2 start main.js",
+        "start": "pm2 start 0",
+        "monitor": "pm2 monit",
+        "restart": "pm2 restart 0",
+        "stop": "pm2 stop 0",
+        "delete": "pm2 delete all",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Thrump/LootDropBot.git"
+    },
+    "keywords": [],
+    "author": "Von Mbah <vonchude@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Thrump/LootDropBot/issues"
+    },
+    "homepage": "https://github.com/Thrump/LootDropBot#readme",
+    "dependencies": {
+        "discord-akairo": "^8.0.0",
+        "discord.js": "^12.2.0",
+        "dotenv": "^8.2.0",
+        "knex": "^0.21.1",
+        "pm2": "^4.4.0",
+        "sqlite3": "^4.2.0"
+    }
 }
