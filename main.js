@@ -43,7 +43,6 @@ class MyClient extends AkairoClient {
     }
 }
 
-const client = new MyClient();
 
 const client = new MyClient();
 client.login(process.env.TOKEN);
