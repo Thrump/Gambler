@@ -1,4 +1,4 @@
-User = require('../models/user').User
+User = require('../models/user').User;
 const { Command } = require('discord-akairo');
 
 class CurrencyCommand extends Command {

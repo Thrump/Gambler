@@ -1,15 +1,27 @@
-User = require('../models/user').User
+const { Command } = require('discord-akairo');
 
-module.exports = {
-    name: 'give',
-    description: 'Owner power of giving money',
-    execute(message, args) {
-        if (args.length == 0)
+
+class GiveCommand extends Command {
+    constructor() {
+        super('give', {
+            aliases: ['give'],
+            ownerOnly: false,
+            channel: 'guild',
+            args: [{
+                id: 'arg1',
+                default: 0
+            }]
+        })
+    }
+
+    exec(message, args) {
+        if (args.args1 == 0)
             return message.channel.send('No amount was stated');
         let user = new User(message.author.id);
         user.update().then((u) => {
-            u.setCurrency(u.currency + parseInt(args[0]));
+            u.setCurrency(u.currency + parseInt(args.arg1));
             return message.reply(`Currency updated to: ${u.currency}`);
         })
     }
 }
+module.exports = GiveCommand;

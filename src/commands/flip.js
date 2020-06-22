@@ -1,17 +1,32 @@
+const { Command } = require('discord-akairo');
+
 User = require('../models/user').User
 client = require('../../main').client
 
-module.exports = {
-    name: 'flip',
-    description: 'Gamble for flipping coins',
-    execute(message, args) {
+class FlipCommand extends Command {
+    constructor() {
+        super('flip', {
+            aliases: ['flip'],
+            ownerOnly: false,
+            args: [{
+                id: 'arg1',
+                default: 0
+            }, {
+                id: 'arg2',
+                default: 0
+            }]
+        });
+    }
+
+    exec(message, args) {
+
         if (args.length < 2) return message.reply('ERROR: %flip [side] [amount]');
-        if (args[1] == 0) return message.reply('ERROR: Amount must be higher than 0');
-        if (args[0] != 'h' && args[0] != 't' && args[0] != 'heads' && args[0] != 'tails')
+        if (args.arg2 == 0) return message.reply('ERROR: Amount must be higher than 0');
+        if (args.arg1 != 'h' && args.arg1 != 't' && args.arg1 != 'heads' && args.arg1 != 'tails')
             return message.reply('ERROR: Must be heads(h) or tails(t)');
         let user = new User(message.author.id);
         user.update().then((u) => {
-            if (u.currency < args[1] || (args[1] == 'all' && u.currency == 0))
+            if (u.currency < args.arg2 || (args.arg2 == 'all' && u.currency == 0))
                 return message.reply('ERROR: Insufficient funds');
             const randomNumber = Math.round(Math.random());
             const landed = randomNumber ? "tails" : "heads";
@@ -21,8 +36,8 @@ module.exports = {
             //     message.channel.send(`${client.emojis.find(emoji => emoji.name ==="heads")}`);
             // }
             message.channel.send(`Landed on: ${landed}`);
-            const value = args[1] == 'all' ? u.currency : args[1];
-            if (args[0] == 'heads' || args[0] == 'h') {
+            const value = args.arg2 == 'all' ? u.currency : args.arg2;
+            if (args.arg1 == 'heads' || args.arg1 == 'h') {
                 if (randomNumber == 0) {
                     message.channel.send(`Senpai you won ${parseInt(value) * 2} cummies`);
                     u.setCurrency(u.currency + 2 * parseInt(value));
@@ -40,6 +55,7 @@ module.exports = {
                 }
             }
         })
-
     }
 }
+
+module.exports = FlipCommand;
