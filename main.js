@@ -3,7 +3,6 @@ require('dotenv').config();
 const config = require('./config.json');
 const { AkairoClient, CommandHandler, ListenerHandler } = require('discord-akairo');
 
-
 //Database setup
 const knex = require('knex')({
     client: 'sqlite3',
