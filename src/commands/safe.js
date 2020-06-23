@@ -6,8 +6,8 @@ class SafeCommand extends Command {
     constructor() {
         super('safe', {
             aliases: ['safe', 's'],
-            cooldown: 3000,
-            ratelimit: 2,
+            cooldown: 4000,
+            ratelimit: 1,
             args: [{
                 id: 'tag',
                 match: 'rest',
@@ -32,7 +32,12 @@ class SafeCommand extends Command {
         if (posts.length == 0) return message.channel.send('ERROR: No pictures exist with that tag.');
         while (posts.posts[0].rating != 's') posts = await Booru.search(args.site, args.tag.split(' '), { limit: 1, random: true });
         const attachment = new MessageAttachment(posts.first.fileUrl);
-        message.channel.send(attachment);
+        try {
+            message.channel.send(attachment);
+        } catch (error) {
+            message.channel.send('ERROR: Something broke in the backend; eventually will fix.\n Try the commmand again.');
+        }
+
     }
 }
 
