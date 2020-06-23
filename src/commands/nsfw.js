@@ -6,8 +6,8 @@ class NsfwCommand extends Command {
     constructor() {
         super('nsfw', {
             aliases: ['nsfw', 'n'],
-            cooldown: 3000,
-            ratelimit: 2,
+            cooldown: 4000,
+            ratelimit: 1,
             args: [{
                 id: 'tag',
                 default: '',
@@ -25,23 +25,27 @@ class NsfwCommand extends Command {
                     ['gb', 'gel', 'gelbooru'],
                     ['r34', 'rule34'],
                     ['xb', 'xbooru'],
-                    ['lb', 'lol', 'loli', 'lolibooru'],
+                    // ['lb', 'lol', 'loli', 'lolibooru'],
                     ['pa', 'paheal'],
                     ['dp', 'derp', 'derpi', 'derpibooru'],
                     ['fb', 'furrybooru'],
                     ['rb', 'realbooru']
                 ],
-                default: 'danbooru'
+                default: 'rule34'
             }]
         })
     }
 
     async exec(message, args) {
         if (!message.channel.nsfw) return message.channel.send("ERROR: Channel must be marked nsfw to use this command.");
-        const posts = await Booru.search(args.site, [args.tag], { limit: 1, random: true });
+        const posts = await Booru.search(args.site, args.tag.split(' '), { limit: 1, random: true });
         if (posts.length == 0) return message.channel.send('ERROR: No pictures exist with that tag.');
         const attachment = new MessageAttachment(posts.first.fileUrl);
-        message.channel.send(attachment);
+        try {
+            message.channel.send(attachment);
+        } catch (error) {
+            message.channel.send('ERROR: Something broke in the backend; eventually will fix.\n Try the commmand again.');
+        }
     }
 }
 
