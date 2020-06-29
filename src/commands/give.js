@@ -5,12 +5,14 @@ class GiveCommand extends Command {
     constructor() {
         super('give', {
             aliases: ['give'],
-            ownerOnly: false,
+            clientPermissions: ['ADMINISTRATOR'],
+            ignorePermissions: ['427916973549027339'],
             channel: 'guild',
             args: [{
                 id: 'arg1',
                 default: 0
-            }]
+            }],
+            category: 'development'
         })
     }
 
@@ -24,4 +26,4 @@ class GiveCommand extends Command {
         })
     }
 }
-module.exports = GiveCommand;
+// module.exports = GiveCommand;

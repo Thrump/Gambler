@@ -5,7 +5,8 @@ class RestartCommand extends Command {
         super('restart', {
             aliases: ['restart'],
             ownerOnly: true,
-            channel: 'guild'
+            channel: 'guild',
+            category: 'development'
         });
     }
 

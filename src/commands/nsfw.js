@@ -8,6 +8,26 @@ class NsfwCommand extends Command {
             aliases: ['nsfw', 'n'],
             cooldown: 4000,
             ratelimit: 1,
+            description: {
+                desc: "Posts nsfw pictures from booru websites",
+                format: "$nsfw {[tags]} {--site}",
+                example: "$nsfw --rb butt",
+                options: {
+                    site: ['e621',
+                        'hypnohub',
+                        'danbooru',
+                        'kcom',
+                        'yandere',
+                        'gelbooru',
+                        'rule34',
+                        'xbooru',
+                        'paheal',
+                        'derpibooru',
+                        'furrybooru',
+                        'realbooru',
+                    ]
+                }
+            },
             args: [{
                 id: 'tag',
                 default: '',
@@ -15,7 +35,7 @@ class NsfwCommand extends Command {
             }, {
                 id: 'site',
                 match: 'option',
-                flag: 'site:',
+                flag: '--',
                 type: [
                     ['e6', 'e621'],
                     ['hh', 'hypnohub'],
@@ -32,15 +52,23 @@ class NsfwCommand extends Command {
                     ['rb', 'realbooru']
                 ],
                 default: 'rule34'
-            }]
+            }, {
+                id: 'hk',
+                match: 'flag',
+                flag: '-hk'
+            }],
+            typing: true,
+            category: 'Picture'
         })
     }
 
     async exec(message, args) {
+        this
         if (!message.channel.nsfw) return message.channel.send("ERROR: Channel must be marked nsfw to use this command.");
-        const posts = await Booru.search(args.site, args.tag.split(' '), { limit: 1, random: true });
+        const tags = args.hk ? ['haikyuu!!', 'yaoi'] : args.tag.split(' ');
+        const posts = await Booru.search(args.site, tags, { limit: 1, random: true });
         if (posts.length == 0) return message.channel.send('ERROR: No pictures exist with that tag.');
-        const attachment = new MessageAttachment(posts.first.fileUrl);
+        const attachment = posts.first.fileUrl.endsWith('.webm') ? posts.first.fileUrl : new MessageAttachment(posts.first.fileUrl);
         try {
             message.channel.send(attachment);
         } catch (error) {

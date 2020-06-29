@@ -8,13 +8,19 @@ class FlipCommand extends Command {
         super('flip', {
             aliases: ['flip'],
             ownerOnly: false,
+            description: {
+                desc: "Gamble your money with flipping a coin",
+                format: "$flip (side) (amount)",
+                example: "$flip head 100"
+            },
             args: [{
                 id: 'arg1',
                 default: 0
             }, {
                 id: 'arg2',
                 default: 0
-            }]
+            }],
+            category: 'Money'
         });
     }
 
