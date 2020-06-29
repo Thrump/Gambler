@@ -9,9 +9,11 @@ class CooldownListener extends Listener {
     }
 
     exec(message, command, remaining) {
-        console.log('check2');
-        const sec = Math.floor((remaining / 1000) % 60);
-        message.reply(`Cooldown: ${sec}s on ${command}`);
+        var sec = Math.floor((remaining / 1000));
+        var minute = Math.floor(sec / 60);
+        sec = sec % 60;
+        if (command.id == "daily") return message.reply(`You have ${minute} mins and ${sec} seconds left on your daily`);
+        else message.reply(`Cooldown: ${sec}s on ${command}`);
     }
 }
 
