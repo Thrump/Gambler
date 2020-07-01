@@ -14,11 +14,10 @@ class CurrencyCommand extends Command {
         });
     }
 
-    exec(message) {
-        let user = new User(message.author.id);
-        user.update().then((u) => {
-            return message.channel.send(`Your current currency: ${u.currency}`);
-        })
+    async exec(message) {
+        let user = await new User(message.author.id).update();
+        return message.channel.send(`Your current currency: ${user.currency}`);
+
     }
 }
 
