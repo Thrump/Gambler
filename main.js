@@ -2,16 +2,10 @@
 require('dotenv').config();
 const config = require('./config.json');
 const { AkairoClient, CommandHandler, ListenerHandler } = require('discord-akairo');
+// const { Guild } = require('./src/models/guild').Guild;
 
-//Database setup
-const knex = require('knex')({
-    client: 'sqlite3',
-    connection: {
-        filename: process.env.DATABASE
-    }
-});
 
-module.exports.knex = knex;
+
 
 
 
@@ -25,7 +19,10 @@ class MyClient extends AkairoClient {
 
         this.commandHandler = new CommandHandler(this, {
             directory: './src/commands/',
-            prefix: config.prefix
+            prefix: async msg => {
+                let guild = await new Guild(msg.guild.id).update();
+                return guild.prefix;
+            }
         })
         this.listenerHandler = new ListenerHandler(this, {
             directory: './src/listeners/'
