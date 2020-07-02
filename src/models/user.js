@@ -13,7 +13,6 @@ class User {
     // = Update Methods =================================
     async update() {
         const exists = await knex.schema.hasTable('user');
-        console.log(await knex.schema.hasTable('guild'));
         if (!exists) {
             await knex.schema.createTable('user', function(table) {
                 table.bigInteger('user_id');
