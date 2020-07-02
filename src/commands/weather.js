@@ -9,7 +9,9 @@ class WeatherCommand extends Command {
             ownerOnly: true,
             category: 'development',
             description: {
-                message: "The weather"
+                desc: "Displays the weather at a location",
+                format: "$weather (zip | city name) ",
+                example: "$weather 12345"
             },
             args: [{
                 id: 'arg1',
