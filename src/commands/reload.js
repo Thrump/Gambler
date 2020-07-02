@@ -6,6 +6,7 @@ class ReloadCommand extends Command {
         super('reload', {
             aliases: ['reload'],
             ownerOnly: true,
+            category: 'development'
         });
     }
 
