@@ -22,7 +22,6 @@ class CurrencyCommand extends Command {
             description: `Amount: ${user.currency}`
         };
         return message.channel.send({ embed });
-
     }
 }
 
