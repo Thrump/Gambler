@@ -40,7 +40,9 @@ class HelpCommand extends Command {
         const embed = {
                 title: `${command.id} Command`,
                 description: command.description.desc,
-                footer: `{}: Optional Parameter. []: Multiple Parameters. (): Required Parameter.`,
+                footer: {
+                    text: `{}: Optional Parameter. []: Multiple Parameters. (): Required Parameter.`
+                },
                 fields: [{
                     name: 'Format',
                     value: `\`\`\`${command.description.format}\`\`\``

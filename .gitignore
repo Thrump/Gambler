@@ -10,4 +10,4 @@ jspm_packages/
 .env.test
 
 # database directories
-db/
+src/db/development.sqlite3

@@ -1,4 +1,4 @@
-const knex = require('../../main').knex;
+const knex = require('../db/knex').knex;
 
 class User {
     // = Column =========================================
@@ -12,6 +12,14 @@ class User {
 
     // = Update Methods =================================
     async update() {
+        const exists = await knex.schema.hasTable('user');
+        if (!exists) {
+            await knex.schema.createTable('user', function(table) {
+                table.bigInteger('user_id');
+                table.integer('currency');
+            })
+        }
+
         let rows = await knex('user').select('*').where('user_id', '=', this.userid);
         if (rows.length == 0) {
             this.currency = 0;
