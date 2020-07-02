@@ -16,7 +16,12 @@ class CurrencyCommand extends Command {
 
     async exec(message) {
         let user = await new User(message.author.id).update();
-        return message.channel.send(`Your current currency: ${user.currency}`);
+        const embed = {
+            color: `#C4FAF8`,
+            title: `${message.author.username}'s Currency`,
+            description: `Amount: ${user.currency}`
+        };
+        return message.channel.send({ embed });
 
     }
 }

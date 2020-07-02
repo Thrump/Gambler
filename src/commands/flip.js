@@ -1,4 +1,5 @@
 const { Command } = require('discord-akairo');
+const { MessageEmbed } = require('discord.js');
 
 User = require('../models/user').User
 client = require('../../main').client
@@ -14,10 +15,14 @@ class FlipCommand extends Command {
                 example: "$flip head 100"
             },
             args: [{
-                id: 'arg1',
-                default: 0
+                id: 'side',
+                type: [
+                    ['heads', 'h', 'he', 'hea', 'head'],
+                    ['tails', 't', 'ta', 'tai', 'tail']
+                ],
             }, {
-                id: 'arg2',
+                id: 'amount',
+                type: 'number',
                 default: 0
             }],
             category: 'Money'
@@ -27,39 +32,38 @@ class FlipCommand extends Command {
     exec(message, args) {
 
         if (args.length < 2) return message.reply('ERROR: %flip [side] [amount]');
-        if (args.arg2 == 0) return message.reply('ERROR: Amount must be higher than 0');
-        if (args.arg1 != 'h' && args.arg1 != 't' && args.arg1 != 'heads' && args.arg1 != 'tails')
+        if (args.amount == 0) return message.reply('ERROR: Amount must be higher than 0');
+        if (args.side != 'heads' && args.side != 'tails')
             return message.reply('ERROR: Must be heads(h) or tails(t)');
         let user = new User(message.author.id);
         user.update().then((u) => {
-            if (u.currency < args.arg2 || (args.arg2 == 'all' && u.currency == 0))
+            if (u.currency < args.amount || (args.amount == 'all' && u.currency == 0))
                 return message.reply('ERROR: Insufficient funds');
             const randomNumber = Math.round(Math.random());
             const landed = randomNumber ? "tails" : "heads";
-            // if (landed == "tails") {
-            //     message.channel.send(`${client.emojis.find(emoji => emoji.name ==="tails")}`);
-            // } else {
-            //     message.channel.send(`${client.emojis.find(emoji => emoji.name ==="heads")}`);
-            // }
-            message.channel.send(`Landed on: ${landed}`);
-            const value = args.arg2 == 'all' ? u.currency : args.arg2;
-            if (args.arg1 == 'heads' || args.arg1 == 'h') {
+
+            const embed = new MessageEmbed()
+                .setColor('#C4FAF8')
+                .setTitle(`Flip: ${landed}`);
+            const value = args.amount == 'all' ? u.currency : args.amount;
+            if (args.side == 'heads') {
                 if (randomNumber == 0) {
-                    message.channel.send(`Senpai you won ${parseInt(value) * 2} cummies`);
+                    embed.setDescription(`You won ${parseInt(value) * 2} coins`);
                     u.setCurrency(u.currency + 2 * parseInt(value));
                 } else {
-                    message.channel.send('booboo the fucking fool, shouldve bet on tails');
+                    embed.setDescription('Sorry, it landed on tails :(');
                     u.setCurrency(u.currency - parseInt(value));
                 }
             } else {
                 if (randomNumber == 1) {
-                    message.channel.send(`Senpai you won ${parseInt(value) * 2} cummies`);
+                    embed.setDescription(`You won ${parseInt(value) * 2} coins`);
                     u.setCurrency(u.currency + 2 * parseInt(value));
                 } else {
-                    message.channel.send('booboo the fucking fool, shouldve bet on heads');
+                    embed.setDescription('Sorry, it landed on heads :(');
                     u.setCurrency(u.currency - parseInt(value));
                 }
             }
+            message.channel.send(embed);
         })
     }
 }
