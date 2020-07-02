@@ -1,5 +1,6 @@
 const { Command } = require("discord-akairo");
 const fetch = require('node-fetch');
+const { DiscordAPIError } = require("discord.js");
 
 class WeatherCommand extends Command {
     constructor() {
@@ -42,7 +43,21 @@ class WeatherCommand extends Command {
             var temp = ((json.main.temp - 273.15)*1.8+32).toFixed(0);
             var high = ((json.main.temp_max - 273.15)*1.8+32).toFixed(0);
             var low = ((json.main.temp_min - 273.15)*1.8+32).toFixed(0);
-            message.channel.send(`Current Temperature in ${json.name}: ${temp}F\nCondition: ${json.weather[0].description}\nHigh: ${high}F\nLow: ${low}F`);
+            const embed = {
+                title: `Weather in ${json.name}`,
+                description: `Condtion: ${json.weather[0].description}`,
+                fields: [{
+                    name: 'Current Temperature',
+                    value: `${temp}F`
+                }, {
+                    name: `High`,
+                    value: `${high}F`
+                }, {
+                    name: `Low`,
+                    value: `${low}F`
+                }],
+            }
+            message.channel.send({embed});
         }
     }
 }
