@@ -7,11 +7,22 @@
 ## Work in Progress Discord Bot
 
 
-## Requirements
+## Setting Up
+* Create a development.sqlite3 file in the ./db subdirectory
+* create a .env file with the properties: 
+```
+TOKEN="Your Discord Bot Key" 
+DATABASE=./src/db/development.sqlite3
+WET="Your openweather api key"
+```
+* create a config.json file with the properties: 
+```json
+{
+    "prefix": "prefix of default bot",
 
-* /db/development.sqlite3
-* .env with a TOKEN and DATABASE fields
-* config.json with prefix and ownerId fields
+    "ownerId": "Your discord ID"
+}
+```
 * npm install
 
 
