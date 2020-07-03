@@ -20,8 +20,9 @@ class HelpCommand extends Command {
     sendHelp() {
         const categories = this.handler.categories;
         const embed = {
-            title: 'Help Command',
-            fields: []
+            title: 'Help Categories',
+            fields: [],
+            description: 'Find a command in a category!'
         }
 
         categories.forEach((key, value) => {
@@ -29,7 +30,7 @@ class HelpCommand extends Command {
                 embed.fields.push({
                     name: key,
                     value: `\`$help ${key}\``,
-                    inline: true
+                    inline: false
                 });
         })
         return { embed };

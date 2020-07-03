@@ -6,7 +6,6 @@ class GiveCommand extends Command {
         super('give', {
             aliases: ['give'],
             clientPermissions: ['ADMINISTRATOR'],
-            ignorePermissions: ['427916973549027339'],
             channel: 'guild',
             args: [{
                 id: 'arg1',
