@@ -1,4 +1,4 @@
-class ConnectFourLogic{
+class ConnectFourLogic {
     constructor() {
         this.board =   [[0,0,0,0,0,0,0],
                         [0,0,0,0,0,0,0],
@@ -203,6 +203,8 @@ class ConnectFourLogic{
     }
 
     checkTie(){
-        return this.columnEmpty == [0,0,0,0,0,0,0];
+        return this.columnEmpty === [0,0,0,0,0,0,0];
     }
 }
+
+module.export = ConnectFourLogic;
