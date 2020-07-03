@@ -24,6 +24,7 @@ WET="Your openweather api key"
 }
 ```
 * npm install
+* node main.js
 
 
 
