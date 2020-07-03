@@ -7,6 +7,7 @@ class WeatherCommand extends Command {
         super('weather', {
             aliases: ['weather'],
             category: 'Utility',
+            cooldown: '3600000',
             description: {
                 desc: "Displays the weather at a location",
                 format: "$weather (zip | city name) ",
