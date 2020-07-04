@@ -39,6 +39,7 @@ class Guild {
         } else {
             this.prefix = row[0].prefix;
             this.dropToggle = row[0].drop_toggle;
+            this.simpListener = row[0].simp_listener;
         }
         return this
     }
