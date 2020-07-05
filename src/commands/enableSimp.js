@@ -34,29 +34,43 @@ class EnableSimpListener extends Command {
 
     async exec(message, args) {
         let guild = await new Guild(message.guild.id).update();
-        
+
+        const embed = {
+            color: `#C4FAF8`
+        };
+
         if (args.enable) {
+
             if (guild.simpListener == 1) {
-                return message.channel.send('Simp listener is already enabled.');
+                embed.title = 'Simp listener is already enabled.';
+            } else {
+                embed.title = 'Simp listener is now enabled.';
+                guild.setSimpListener(1);
             }
-            guild.setSimpListener(1);
-            return message.channel.send('Simp listener has been enabled.');
-        } else if (args.disable) {
-            if (guild.simpListener == 0) {
-                return message.channel.send('Simp listener is already disabled.');
-            }
-            guild.setSimpListener(0);
-            return message.channel.send('Simp listener has been disabled.');
-        } else if (args.status){
-            if (guild.simpListener == 0) {
-                return message.channel.send('Status: Simp listener is disabled.');
-            } else if (guild.simpListener == 1) {
-                return message.channel.send('Status: Simp listener is enabled.');
-            }
-        } else {
-            return message.channel.send('Please provide a flag.');
-        }
+            
+            return message.channel.send( {embed} );
+        } 
         
+        if (args.disable) {
+
+            if (guild.simpListener == 0) {
+                embed.title = 'Simp listener is already disabled.';
+            } else {
+                embed.title = 'Simp listener is now disabled.';
+                guild.setSimpListener(0);
+            }
+            
+            return message.channel.send( {embed} );
+        } 
+        
+        // Display status by default if no flag is provided.
+        if (guild.simpListener == 0) {
+            embed.title = 'Simp listener is enabled.';
+        } else if (guild.simpListener == 1) {
+            embed.title = 'Simp listener is disabled.';
+        }
+
+        return message.channel.send( {embed} );
     }
 
 }
