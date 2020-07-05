@@ -10,6 +10,7 @@
         "restart": "pm2 restart 0",
         "stop": "pm2 stop 0",
         "delete": "pm2 delete all",
+        "migrate-up": "node node_modules/db-migrate up --config src/db/database.json",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
