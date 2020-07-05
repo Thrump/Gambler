@@ -5,6 +5,7 @@ class Guild {
     guildid;
     prefix;
     dropToggle;
+    simpListener;
 
     // = Constructor ====================================
     constructor(guildid) {
@@ -19,6 +20,7 @@ class Guild {
                 table.bigInteger('guild_id');
                 table.string('prefix');
                 table.boolean('drop_toggle');
+                table.boolean('simp_listener');
             })
         }
 
@@ -26,15 +28,18 @@ class Guild {
         if (row.length == 0) {
             this.prefix = '$';
             this.dropToggle = false;
+            this.simpListener = false;
             const guild = {
                 guild_id: this.guildid,
                 prefix: this.prefix,
-                drop_toggle: this.dropToggle
+                drop_toggle: this.dropToggle,
+                simp_listener: this.simpListener
             };
             await knex('guild').insert(guild);
         } else {
             this.prefix = row[0].prefix;
             this.dropToggle = row[0].drop_toggle;
+            this.simpListener = row[0].simp_listener;
         }
         return this
     }
@@ -55,6 +60,11 @@ class Guild {
     setDropToggle(dropToggle) {
         this.dropToggle = dropToggle;
         this.updateValue('drop_toggle', dropToggle);
+    }
+
+    setSimpListener(simp) {
+        this.simpListener = simp;
+        this.updateValue('simp_listener', simp);
     }
 }
 

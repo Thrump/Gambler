@@ -1,4 +1,5 @@
 const { Listener } = require('discord-akairo');
+Guild = require('../models/guild').Guild
 
 class SimpListener extends Listener {
     constructor() {
@@ -8,7 +9,12 @@ class SimpListener extends Listener {
         })
     }
 
-    exec(message) {
+    async exec(message) {
+        let guild = await new Guild(message.guild.id).update();
+        if (guild.simpListener == 0 || message.author.bot || message.content.toLowerCase().startsWith(guild.prefix + "simp")) {
+            return;
+        }
+
         if ((Math.floor(Math.random() * 100) + 1) > 50) return;
         if (message.content.toLowerCase().includes("simp") || message.content.toLowerCase().includes("miss") ||
             message.content.toLowerCase().includes("simping")) {
