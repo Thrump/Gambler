@@ -22,7 +22,6 @@ class FlipCommand extends Command {
                 ],
             }, {
                 id: 'amount',
-                type: 'number',
                 default: 0
             }],
             category: 'Money'
@@ -46,6 +45,7 @@ class FlipCommand extends Command {
                 .setColor('#C4FAF8')
                 .setTitle(`Flip: ${landed}`);
             const value = args.amount == 'all' ? u.currency : args.amount;
+            console.log(value);
             if (args.side == 'heads') {
                 if (randomNumber == 0) {
                     embed.setDescription(`You won ${parseInt(value) * 2} coins`);
