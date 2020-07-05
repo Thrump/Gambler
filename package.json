@@ -10,7 +10,8 @@
         "restart": "pm2 restart 0",
         "stop": "pm2 stop 0",
         "delete": "pm2 delete all",
-        "migrate-up": "node node_modules/db-migrate up --config src/db/database.json",
+        "migrate-up": "node node_modules/db-migrate/bin/db-migrate up --config src/db/database.json",
+        "migrate-create": "node node_modules/db-migrate/bin/db-migrate create $npm_config_name --config src/db/database.json",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
@@ -25,6 +26,7 @@
     },
     "homepage": "https://github.com/Thrump/LootDropBot#readme",
     "dependencies": {
+        "async": "^3.2.0",
         "booru": "^2.2.3",
         "db-migrate": "^0.11.11",
         "db-migrate-sqlite3": "^0.4.0",
