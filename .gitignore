@@ -11,3 +11,6 @@ jspm_packages/
 
 # database directories
 src/db/development.sqlite3
+
+# config.json file
+config.json

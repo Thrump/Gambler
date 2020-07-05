@@ -50,17 +50,22 @@ class FlipCommand extends Command {
                 if (randomNumber == 0) {
                     embed.setDescription(`You won ${parseInt(value) * 2} coins`);
                     u.setCurrency(u.currency + 2 * parseInt(value));
+                    u.setWins(u.wins + 1);
                 } else {
                     embed.setDescription('Sorry, it landed on tails :(');
                     u.setCurrency(u.currency - parseInt(value));
+                    u.setLosses(u.losses + 1);
                 }
             } else {
                 if (randomNumber == 1) {
                     embed.setDescription(`You won ${parseInt(value) * 2} coins`);
                     u.setCurrency(u.currency + 2 * parseInt(value));
+                    u.setWins(u.wins + 1);
+                    u.setLosses(u.losses + 1);
                 } else {
                     embed.setDescription('Sorry, it landed on heads :(');
                     u.setCurrency(u.currency - parseInt(value));
+                    u.setLosses(u.losses + 1);
                 }
             }
             message.channel.send(embed);

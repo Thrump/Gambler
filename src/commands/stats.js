@@ -31,6 +31,9 @@ class StatsCommand extends Command {
             embed.setAuthor(`${account.displayName}'s Page`, null, account.user.displayAvatarURL())
                 .setThumbnail(account.user.displayAvatarURL())
                 .addField('=====Currency=====', `${accountInfo.currency}`, false)
+                .addField('====Current Rank====', `${accountInfo.rank}`, false)
+                .addField('Amount for Next Rank', `$${100000 + 10000 * (accountInfo.rank) + 10000 * (Math.floor(accountInfo.rank/10))}`, false)
+                .addField('====Game Stats====', `${accountInfo.wins}W | ${accountInfo.losses}L`, false)
                 .addField('=Time Joined Server==', `${account.joinedAt.getMonth() + 1}/${account.joinedAt.getDate()}/${account.joinedAt.getFullYear()}`, false)
                 .addField('=Time Joined Discord=', `${account.user.createdAt.getMonth() + 1}/${account.user.createdAt.getDate()}/${account.user.createdAt.getFullYear()}`, false);
         }

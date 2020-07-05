@@ -44,7 +44,7 @@ class BotCommand extends Command {
                 },
                 {
                     name: 'Contributors',
-                    value: '`Alexc99xd#4264`',
+                    value: '`Alexc99xd#4264\nhopiakween#5638`',=
                     inline: true
                 },
                 {
@@ -57,11 +57,14 @@ class BotCommand extends Command {
                     value: `${this.client.guilds.cache.array().length} servers`,
                     inline: true
                 },
-
                 {
                     name: `Current Server's Prefix`,
                     value: guild.prefix,
                     inline: true
+                },
+                {
+                    name: 'Invite Bot To Your Server',
+                    value: `[Link](https://discord.com/oauth2/authorize?client_id=706729347880321025&scope=bot)`
                 }
             ]
 

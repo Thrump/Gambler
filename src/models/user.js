@@ -4,6 +4,9 @@ class User {
     // = Column =========================================
     userid;
     currency;
+    rank;
+    wins;
+    losses;
 
     // = Constructor ====================================
     constructor(userid) {
@@ -12,24 +15,25 @@ class User {
 
     // = Update Methods =================================
     async update() {
-        const exists = await knex.schema.hasTable('user');
-        if (!exists) {
-            await knex.schema.createTable('user', function(table) {
-                table.bigInteger('user_id');
-                table.integer('currency');
-            })
-        }
-
         let rows = await knex('user').select('*').where('user_id', '=', this.userid);
         if (rows.length == 0) {
             this.currency = 0;
+            this.rank = 1;
+            this.wins = 1;
+            this.losses = 1;
             const user = {
                 user_id: this.userid,
-                currency: this.currency
+                currency: this.currency,
+                rank: this.rank,
+                wins: this.wins,
+                losses: this.losses
             };
             await knex('user').insert(user);
         } else {
             this.currency = rows[0].currency
+            this.rank = rows[0].rank;
+            this.wins = rows[0].wins;
+            this.losses = rows[0].losses;
         }
         return this
     }
@@ -45,6 +49,21 @@ class User {
     setCurrency(currency) {
         this.currency = currency;
         this.updateValue('currency', currency);
+    }
+
+    setRank(rank) {
+        this.rank = rank;
+        this.updateValue('rank', rank);
+    }
+
+    setWins(wins) {
+        this.wins = wins;
+        this.updateValue('wins', wins);
+    }
+
+    setLosses(losses) {
+        this.losses = losses;
+        this.updateValue('losses', losses);
     }
 }
 
