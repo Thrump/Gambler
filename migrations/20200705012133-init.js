@@ -25,7 +25,6 @@ exports.up = function(db, callback) {
             guild_id: { type: 'bigint', primaryKey: true, notNull: true },
             prefix: { type: 'string', notNull: true, defaultValue: '$' },
             drop_toggle: { type: 'boolean', notNull: true, defaultValue: false },
-            simp_listener: { type: 'boolean', notNull: true, defaultValue: false }
         })
     ], callback);
 };

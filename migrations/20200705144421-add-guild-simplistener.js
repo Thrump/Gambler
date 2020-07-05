@@ -14,12 +14,16 @@ exports.setup = function(options, seedLink) {
   seed = seedLink;
 };
 
-exports.up = function(db) {
-  return null;
+exports.up = function(db, callback) {
+  db.addColumn('guild', 'simp_listener', {
+    type: 'boolean',
+    notNull: true,
+    defaultValue: 0
+  }, callback);
 };
 
-exports.down = function(db) {
-  return null;
+exports.down = function(db, callback) {
+  db.removeColumn('guild', 'simp_listener', callback);
 };
 
 exports._meta = {
