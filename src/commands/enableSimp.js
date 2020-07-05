@@ -34,17 +34,24 @@ class EnableSimpListener extends Command {
 
     async exec(message, args) {
         let guild = await new Guild(message.guild.id).update();
+        
         if (args.enable) {
+            if (guild.simpListener == 1) {
+                return message.channel.send('Simp listener is already enabled.');
+            }
             guild.setSimpListener(1);
             return message.channel.send('Simp listener has been enabled.');
         } else if (args.disable) {
+            if (guild.simpListener == 0) {
+                return message.channel.send('Simp listener is already disabled.');
+            }
             guild.setSimpListener(0);
             return message.channel.send('Simp listener has been disabled.');
         } else if (args.status){
             if (guild.simpListener == 0) {
-                return message.channel.send('Simp listener is disabled.');
-            } else if (guild.simpListern == 1) {
-                return message.channel.send('Simp listener is enabled.');
+                return message.channel.send('Status: Simp listener is disabled.');
+            } else if (guild.simpListener == 1) {
+                return message.channel.send('Status: Simp listener is enabled.');
             }
         } else {
             return message.channel.send('Please provide a flag.');

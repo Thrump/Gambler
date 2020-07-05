@@ -11,7 +11,7 @@ class SimpListener extends Listener {
 
     async exec(message) {
         let guild = await new Guild(message.guild.id).update();
-        if (guild.simpListener == 0 || message.author.bot) {
+        if (guild.simpListener == 0 || message.author.bot || message.content.toLowerCase().startsWith(guild.prefix + "simp")) {
             return;
         }
 
