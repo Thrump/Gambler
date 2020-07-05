@@ -9,10 +9,9 @@ class SimpListener extends Listener {
         })
     }
 
-    exec(message) {
-        let guild = new Guild(message.guild.id);
-        //console.log(guild);
-        if (guild.simpListener == false || message.author.bot) {
+    async exec(message) {
+        let guild = await new Guild(message.guild.id).update();
+        if (guild.simpListener == 0 || message.author.bot) {
             return;
         }
 

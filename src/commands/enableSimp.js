@@ -36,13 +36,11 @@ class EnableSimpListener extends Command {
         let guild = await new Guild(message.guild.id).update();
         if (args.enable) {
             //enable listener
-            guild.setSimpListener(true);
-            console.log(guild);
+            guild.setSimpListener(1);
             return message.channel.send('Simp listener is enabled');
         } else if (args.disable) {
             //disable listener
-            guild.setSimpListener(false);
-            console.log(guild);
+            guild.setSimpListener(0);
             return message.channel.send('Simp listener is disabled');
         } else if (args.status){
             //probably make a function to get the simp_listener value from the database
