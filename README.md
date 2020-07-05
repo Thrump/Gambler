@@ -24,7 +24,7 @@ WET="Your openweather api key"
 }
 ```
 * `npm install`
-* `node node_modules/db-migrate/bin/db-migrate up --config src/db/database.json`
+* `npm run migrate-up`
 * `node main.js`
 
 ## Database Migrations
