@@ -44,7 +44,7 @@ class BotCommand extends Command {
                 },
                 {
                     name: 'Contributors',
-                    value: '`Alexc99xd#4264\nhopiakween#5638`',
+                    value: '`Alexc99xd#4264\nhopiakween#5638`',=
                     inline: true
                 },
                 {
