@@ -20,11 +20,6 @@ class EnableSimpListener extends Command {
                     id: 'disable',
                     match: 'flag',
                     flag: ['--disable', '--d']
-                },
-                {
-                    id: 'status',
-                    match: 'flag',
-                    flag: ['--status', '--stat']
                 }
             ],
             category: 'Utility',
