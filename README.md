@@ -23,8 +23,24 @@ WET="Your openweather api key"
     "ownerId": "Your discord ID"
 }
 ```
-* npm install
-* node main.js
+* `npm install`
+* `npm run migrate-up`
+* `node main.js`
+
+## Database Migrations
+
+### Creating Migrations
+When wanting to make changes to the database, you will need to create a database migration. To set it up, first create a migration file through this command:
+
+`node node_modules/db-migrate/bin/db-migrate create MIGRATE_FILE_NAME --config src/db/database.json`
+
+A new file should appear in the `./migrations` directory. Edit the file to reflect what you want to change in the database. ([Documentation for Migration API](https://db-migrate.readthedocs.io/en/latest/API/SQL/))
+
+
+### Applying Migrations
+To apply the migration to your database, run this in the console:
+
+`node node_modules/db-migrate/bin/db-migrate up --config src/db/database.json`
 
 
 
