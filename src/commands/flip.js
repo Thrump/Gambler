@@ -36,7 +36,7 @@ class FlipCommand extends Command {
             return message.reply('ERROR: Must be heads(h) or tails(t)');
         let user = new User(message.author.id);
         user.update().then((u) => {
-            if (u.currency < args.amount || (args.amount == 'all' && u.currency == 0))
+            if (u.currency < args.amount || ((args.amount == 'all' || args.amount == 'half') && u.currency == 0))
                 return message.reply('ERROR: Insufficient funds');
             const randomNumber = Math.round(Math.random());
             const landed = randomNumber ? "tails" : "heads";
@@ -44,8 +44,8 @@ class FlipCommand extends Command {
             const embed = new MessageEmbed()
                 .setColor('#C4FAF8')
                 .setTitle(`Flip: ${landed}`);
-            const value = args.amount == 'all' ? u.currency : args.amount;
-            console.log(value);
+            const value = args.amount == 'all' ? u.currency : args.amount == 'half' ? u.currency / 2 : args.amount;
+            u.setCurrency(u.currency - parseInt(value));
             if (args.side == 'heads') {
                 if (randomNumber == 0) {
                     embed.setDescription(`You won ${parseInt(value) * 2} coins`);
@@ -53,7 +53,6 @@ class FlipCommand extends Command {
                     u.setWins(u.wins + 1);
                 } else {
                     embed.setDescription('Sorry, it landed on tails :(');
-                    u.setCurrency(u.currency - parseInt(value));
                     u.setLosses(u.losses + 1);
                 }
             } else {
@@ -61,10 +60,8 @@ class FlipCommand extends Command {
                     embed.setDescription(`You won ${parseInt(value) * 2} coins`);
                     u.setCurrency(u.currency + 2 * parseInt(value));
                     u.setWins(u.wins + 1);
-                    u.setLosses(u.losses + 1);
                 } else {
                     embed.setDescription('Sorry, it landed on heads :(');
-                    u.setCurrency(u.currency - parseInt(value));
                     u.setLosses(u.losses + 1);
                 }
             }
