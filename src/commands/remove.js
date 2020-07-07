@@ -6,7 +6,7 @@ class RemoveCommand extends Command {
     constructor() {
         super('remove', {
             aliases: ['remove', 'rm'],
-            userPermissions: ['ADMINISTRATOR'],
+            ownerOnly: true,
             description: {
                 desc: "remove money from users",
                 format: "$give (amount) ({@users}}",

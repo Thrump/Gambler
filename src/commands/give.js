@@ -6,7 +6,7 @@ class GiveCommand extends Command {
     constructor() {
         super('give', {
             aliases: ['give', 'gv'],
-            userPermissions: ['ADMINISTRATOR'],
+            ownerOnly: true,
             channel: 'guild',
             description: {
                 desc: "Gives money to users",
