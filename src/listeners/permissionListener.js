@@ -10,14 +10,14 @@ class PermissionListener extends Listener {
 
 
     exec(message, command, string, missing) {
+        let values = '';
+        missing.forEach(element => {
+            values += element + ' ';
+        });
         const embed = {
-            title: `ERROR: Missing following Permissions on ${command} `,
+            title: `ERROR: Missing following Permissions on ${command}:`,
             color: `#C4FAF8`,
-            description: () => {
-                return missing.reduce((acc, cur) => {
-                    acc.concat(cur, ' ');
-                })
-            }
+            description: values
         }
 
         return message.channel.send({ embed });
