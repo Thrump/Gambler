@@ -13,6 +13,7 @@ class SlotsCommand extends Command {
     constructor() {
         super('slots', {
             aliases: ['slots', 'sl'],
+            category: 'Money',
             description: {
                 desc: 'Gamble your money with slots!',
                 format: '$slots {amount}',
