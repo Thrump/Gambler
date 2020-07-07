@@ -34,7 +34,7 @@ class SafeCommand extends Command {
                     ['sb', 'safe', 'safebooru'],
                     ['tb', 'tbib', 'big']
                 ],
-                default: 'tbib'
+                default: 'kn'
             }, {
                 id: 'hk',
                 match: 'flag',
@@ -53,7 +53,6 @@ class SafeCommand extends Command {
         const attachment = posts.first.fileUrl.endsWith('.webm') ? posts.first.fileUrl : new MessageAttachment(posts.first.fileUrl);
         try {
             message.channel.send(attachment);
-            console.log(attachment);
         } catch (error) {
             message.channel.send('ERROR: Something broke in the backend; eventually will fix.\n Try the commmand again.');
         }
