@@ -2,17 +2,17 @@ const { Command } = require('discord-akairo');
 const { User } = require('../models/user');
 
 
-class GiveCommand extends Command {
+class RemoveCommand extends Command {
     constructor() {
-        super('give', {
-            aliases: ['give', 'gv'],
+        super('remove', {
+            aliases: ['remove', 'rm'],
             userPermissions: ['ADMINISTRATOR'],
-            channel: 'guild',
             description: {
-                desc: "Gives money to users",
+                desc: "remove money from users",
                 format: "$give (amount) ({@users}}",
                 example: "$give 1000 @☆彡",
             },
+            channel: 'guild',
             args: [{
                 id: 'amount',
                 type: 'number',
@@ -29,7 +29,6 @@ class GiveCommand extends Command {
 
 
     exec(message, args) {
-
         const embed = {
             color: `#C4FAF8`
         }
@@ -38,15 +37,16 @@ class GiveCommand extends Command {
             embed.description = `Need to @ users`;
         } else if (args.users.length != message.mentions.members.array().length) {
             embed.title = `ERROR`;
-            embed.description = `Need to give amount to award`;
+            embed.description = `Need to give amount to remove`;
         } else {
             args.users.forEach(async element => {
                 let user = await new User(element.user.id).update();
-                user.setCurrency(user.currency + args.amount);
+                const amount = args.amount > user.currency ? user.currency : args.amount;
+                user.setCurrency(user.currency - amount);
             });
-            embed.description = `**User(s) have been awarded with ${args.amount} coins**`;
+            embed.description = `**User(s) has lost ${args.amount} coins**`;
         }
         message.channel.send({ embed });
     }
 }
-module.exports = GiveCommand;
+module.exports = RemoveCommand;
