@@ -35,7 +35,8 @@ class FlipCommand extends Command {
             embed.setDescription('ERROR: %flip [side] [amount]');
             return message.channel.send(embed);
         }
-        if (args.amount < 1 || isNaN(args.amount)) {
+        console.log((args.amount != "all" && args.amount != "half"));
+        if (args.amount < 1 || (isNaN(args.amount) && (args.amount != "all" && args.amount != "half"))) {
             embed.setDescription('ERROR: Amount must be higher than 0');
             return message.channel.send(embed);
         }
