@@ -9,7 +9,7 @@ class RemoveCommand extends Command {
             ownerOnly: true,
             description: {
                 desc: "remove money from users",
-                format: "$give (amount) ({@users}}",
+                format: "$give (amount) ({@users})",
                 example: "$give 1000 @☆彡",
             },
             channel: 'guild',

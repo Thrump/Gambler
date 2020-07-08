@@ -19,8 +19,8 @@ class User {
         if (rows.length == 0) {
             this.currency = 0;
             this.rank = 1;
-            this.wins = 1;
-            this.losses = 1;
+            this.wins = 0;
+            this.losses = 0;
             const user = {
                 user_id: this.userid,
                 currency: this.currency,

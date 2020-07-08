@@ -11,16 +11,27 @@ class CurrencyCommand extends Command {
                 format: "$currency",
                 example: "$currency"
             },
+            args: [{
+                id: 'user',
+                type: 'member'
+            }]
         });
     }
 
-    async exec(message) {
-        let user = await new User(message.author.id).update();
+    async exec(message, args) {
+
         const embed = {
             color: `#C4FAF8`,
-            title: `${message.author.username}'s Currency`,
-            description: `Amount: ${user.currency}`
         };
+        if (args.user === undefined) {
+            embed.title = ('ERROR: No user was found');
+        } else {
+            const account = args.user === null ? message.member : args.user;
+            let user = await new User(account.id).update();
+            embed.title = `${account.displayName}'s Currency`;
+            embed.description = `Amount: ${user.currency}`;
+        }
+
         return message.channel.send({ embed });
     }
 }

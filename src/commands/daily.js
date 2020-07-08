@@ -5,9 +5,9 @@ class DailyCommand extends Command {
     constructor() {
         super('daily', {
             aliases: ['daily'],
-            cooldown: 1800000,
+            cooldown: 86400000,
             description: {
-                desc: "Recieve 10000 coins every 30 minutes",
+                desc: "Recieve 30000 coins every 24. +750 for every rankup.",
                 format: "$daily",
                 example: "$daily",
             },
@@ -16,9 +16,15 @@ class DailyCommand extends Command {
     }
 
     async exec(message) {
+
         let user = await new User(message.author.id).update();
-        user.setCurrency(user.currency + 10000);
-        return message.reply('You\'ve recieved your 10000 coins');
+        user.setCurrency(user.currency + 30000 + 750 * (user.rank - 1));
+        const embed = {
+            color: `#C4FAF8`,
+            title: `AWARDED`,
+            description: `You\'ve recieved your ${30000 + 750 * (user.rank - 1)} coins\nCome back in 24 hours!`
+        }
+        return message.channel.send({ embed });
     }
 }
 
