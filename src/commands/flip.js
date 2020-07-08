@@ -29,11 +29,20 @@ class FlipCommand extends Command {
     }
 
     exec(message, args) {
-
-        if (args.length < 2) return message.reply('ERROR: %flip [side] [amount]');
-        if (args.amount == 0) return message.reply('ERROR: Amount must be higher than 0');
-        if (args.side != 'heads' && args.side != 'tails')
-            return message.reply('ERROR: Must be heads(h) or tails(t)');
+        const embed = new MessageEmbed()
+            .setColor('#C4FAF8');
+        if (args.length < 2) {
+            embed.setDescription('ERROR: %flip [side] [amount]');
+            return message.channel.send(embed);
+        }
+        if (args.amount < 1 || isNaN(args.amount)) {
+            embed.setDescription('ERROR: Amount must be higher than 0');
+            return message.channel.send(embed);
+        }
+        if (args.side != 'heads' && args.side != 'tails') {
+            embed.setDescription('ERROR: Must be heads(h) or tails(t)');
+            return message.channel.send(embed);
+        }
         let user = new User(message.author.id);
         user.update().then((u) => {
             if (u.currency < args.amount || ((args.amount == 'all' || args.amount == 'half') && u.currency == 0))
@@ -41,10 +50,8 @@ class FlipCommand extends Command {
             const randomNumber = Math.round(Math.random());
             const landed = randomNumber ? "tails" : "heads";
 
-            const embed = new MessageEmbed()
-                .setColor('#C4FAF8')
-                .setTitle(`Flip: ${landed}`);
-            const value = args.amount == 'all' ? u.currency : args.amount == 'half' ? u.currency / 2 : args.amount;
+
+            const value = args.amount == 'all' ? u.currency : args.amount == 'half' ? u.currency / 2 : Math.floor(args.amount);
             u.setCurrency(u.currency - parseInt(value));
             if (args.side == 'heads') {
                 if (randomNumber == 0) {
