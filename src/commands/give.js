@@ -10,7 +10,7 @@ class GiveCommand extends Command {
             channel: 'guild',
             description: {
                 desc: "Gives money to users",
-                format: "$give (amount) ({@users}}",
+                format: "$give (amount) ({@users})",
                 example: "$give 1000 @☆彡",
             },
             args: [{
