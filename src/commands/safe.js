@@ -4,7 +4,7 @@ const { MessageAttachment } = require("discord.js");
 
 class SafeCommand extends Command {
     constructor() {
-        super('safe', {
+        super('sfw', {
             aliases: ['sfw', 's'],
             cooldown: 4000,
             ratelimit: 1,
