@@ -14,16 +14,12 @@ exports.setup = function(options, seedLink) {
     seed = seedLink;
 };
 
-exports.up = function(db, callback) {
-    db.addColumn('guild', 'simp_listener', {
-        type: 'boolean',
-        notNull: true,
-        defaultValue: 0
-    }, callback);
+exports.up = function(db) {
+    return db.runSql('INSERT into user (user_id, currency, rank, wins, losses) SELECT * FROM _user_old');
 };
 
-exports.down = function(db, callback) {
-    db.removeColumn('guild', 'simp_listener', callback);
+exports.down = function(db) {
+    return null;
 };
 
 exports._meta = {
