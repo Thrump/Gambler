@@ -21,7 +21,7 @@ class WeeklyCommand extends Command {
         const embed = {
             color: `#C4FAF8`,
             title: `AWARDED`,
-            description: `You\'ve recieved your ${50000 + 1500 * (user.rank - 1)} coins\nCome back in 7 days!`
+            description: `You\'ve recieved your ${75000 + 1500 * (user.rank - 1)} coins\nCome back in 7 days!`
         }
         return message.channel.send({ embed });
     }
