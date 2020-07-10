@@ -65,6 +65,19 @@ class User {
         this.losses = losses;
         this.updateValue('losses', losses);
     }
+
+    static async getUsers() {
+        const list = await knex.select().from('user');
+        return list.map(x => {
+            return {
+                user_id: x.user_id.toString(),
+                currency: x.currency,
+                rank: x.rank,
+                wins: x.wins,
+                losses: x.losses
+            }
+        })
+    }
 }
 
 module.exports = {
