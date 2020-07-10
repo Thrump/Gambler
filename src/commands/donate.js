@@ -17,9 +17,9 @@ class DonateCommand extends Command {
             ],
             category: 'Money',
             description: {
-                desc: '',
-                format: '',
-                example: '',
+                desc: 'Donate your money to someone else!',
+                format: '$donate (@user) (amount)',
+                example: '$donate @☆彡#1001 1000',
             }
         })
     }
