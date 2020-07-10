@@ -17,7 +17,7 @@ class WeeklyCommand extends Command {
 
     async exec(message) {
         let user = await new User(message.author.id).update();
-        user.setCurrency(user.currency + 50000 + 1000 * (user.rank - 1));
+        user.setCurrency(user.currency + 75000 + 1500 * (user.rank - 1));
         const embed = {
             color: `#C4FAF8`,
             title: `AWARDED`,
