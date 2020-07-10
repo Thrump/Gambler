@@ -18,7 +18,7 @@ class DailyCommand extends Command {
     async exec(message) {
 
         let user = await new User(message.author.id).update();
-        user.setCurrency(user.currency + 30000 + 750 * (user.rank - 1));
+        user.setCurrency(user.currency + 30000 + 1000 * (user.rank - 1));
         const embed = {
             color: `#C4FAF8`,
             title: `AWARDED`,
