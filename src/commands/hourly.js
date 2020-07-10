@@ -21,7 +21,7 @@ class HourlyCommand extends Command {
         const embed = {
             color: `#C4FAF8`,
             title: `AWARDED`,
-            description: `You\'ve recieved your ${10000 + 500 * (user.rank - 1)} coins\nCome back in 1 Hour!`
+            description: `You\'ve recieved your ${10000 + 500 * (user.rank - 1)} coins\nCome back in 1 hour!`
         }
         return message.channel.send({ embed });
     }
