@@ -22,7 +22,7 @@ class DailyCommand extends Command {
         const embed = {
             color: `#C4FAF8`,
             title: `AWARDED`,
-            description: `You\'ve recieved your ${30000 + 750 * (user.rank - 1)} coins\nCome back in 24 hours!`
+            description: `You\'ve recieved your ${30000 + 1000 * (user.rank - 1)} coins\nCome back in 24 hours!`
         }
         return message.channel.send({ embed });
     }
