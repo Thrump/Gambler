@@ -35,7 +35,6 @@ class LeaderboardCommand extends Command {
         const list = await User.getUsers();
         const guildMemberId = message.guild.members.cache.map(guildMember => guildMember.user.id);
         let guildList = list.filter(object => guildMemberId.includes(object.user_id));
-        guildList = guildList.filter(object => object.currency > 0);
         let type;
         if (args.rank) {
             guildList.sort(function(a, b) {
@@ -65,10 +64,13 @@ class LeaderboardCommand extends Command {
             const guild = message.guild.members.cache;
             paginatedItems.forEach((element, index) => {
                 const displayName = guild.get(element.user_id).user.tag;
-                embed.fields.push({
-                    name: `${args.page == 1 || index == 9 ? '' : args.page - 1}${index == 9 && args.page != 1 ? index + 11 : index + 1}. ${displayName}`,
-                    value: `${type == 'rank' ? 'Rank ' + element.rank : element.currency + ' <:coins:729903134536630314>'}`,
-                })
+                if ((type == "rank" && element.rank != 1) || (type == "currency" && element.currency != 0)) {
+                    embed.fields.push({
+                        name: `${args.page == 1 || index == 9 ? '' : args.page - 1}${index == 9 && args.page != 1 ? index + 11 : index + 1}. ${displayName}`,
+                        value: `${type == 'rank' ? 'Rank ' + element.rank : element.currency + ' <:coins:729903134536630314>'}`,
+                    })
+                }
+
             });
         }
         message.channel.send({ embed });
