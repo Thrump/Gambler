@@ -55,7 +55,7 @@ class EnableSimpListener extends Command {
                 guild.setSimpListener(0);
             }
             
-            return message.channel.send( {embed} );
+            return message.channel.send( { embed } );
         } 
         
         // Display status by default if no flag is provided.
