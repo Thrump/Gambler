@@ -4,6 +4,7 @@ var dbm;
 var type;
 var seed;
 
+var async = require('async');
 /**
  * We receive the dbmigrate dependency from dbmigrate initially.
  * This enables us to not have to rely on NODE_PATH.
@@ -14,16 +15,12 @@ exports.setup = function(options, seedLink) {
     seed = seedLink;
 };
 
-exports.up = function(db, callback) {
-    db.addColumn('guild', 'simp_listener', {
-        type: 'boolean',
-        notNull: true,
-        defaultValue: 0
-    }, callback);
+exports.up = function(db) {
+    return db.runSql('ALTER TABLE user RENAME TO _user_old');
 };
 
-exports.down = function(db, callback) {
-    db.removeColumn('guild', 'simp_listener', callback);
+exports.down = function(db) {
+    return null;
 };
 
 exports._meta = {

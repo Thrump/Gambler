@@ -17,11 +17,11 @@ class WeeklyCommand extends Command {
 
     async exec(message) {
         let user = await new User(message.author.id).update();
-        user.setCurrency(user.currency + 50000 + 1000 * (user.rank - 1));
+        user.setCurrency(user.currency + 75000 + 1500 * (user.rank - 1));
         const embed = {
             color: `#C4FAF8`,
             title: `AWARDED`,
-            description: `You\'ve recieved your ${50000 + 1000 * (user.rank - 1)} coins\nCome back in 7 days!`
+            description: `You\'ve recieved your ${75000 + 1500 * (user.rank - 1)} coins\nCome back in 7 days!`
         }
         return message.channel.send({ embed });
     }
