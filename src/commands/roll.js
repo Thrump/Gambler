@@ -75,21 +75,25 @@ class RollCommand extends Command {
 
             if (args.option === actualResult && actualResult != 'seven') {
                 profit = args.amount;
+                u.setWins(u.wins + 1);
             } else if (args.option === actualResult && actualResult == 'seven') {
                 profit = 4 * args.amount;
+                u.setWins(u.wins + 1);
             } else {
                 profit = -1 * args.amount;
+                u.setLosses(u.losses + 1);
             }
+
+            u.setCurrency(u.currency + profit);
 
             let net = profit > 0 ? 'gained' : 'lost';
 
             embed.setDescription(`You ${net} ${Math.abs(profit)} coins.`);
 
             embed.addField('Your prediction: ', args.option, true);
-            embed.addField('Actual result: ', `${parseInt(d1 + d2)} (${actualResult})`, true)
+            embed.addField('Actual result: ', `${parseInt(d1 + d2)} (${actualResult})`, true);
 
             message.channel.send({ embed });
-
 
         });
 
