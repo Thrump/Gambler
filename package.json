@@ -28,7 +28,6 @@
     "dependencies": {
         "async": "^3.2.0",
         "booru": "^2.2.3",
-        "canvas": "^2.6.1",
         "db-migrate": "^0.11.11",
         "db-migrate-sqlite3": "^0.4.0",
         "discord-akairo": "^8.0.0",
