@@ -37,62 +37,62 @@ class RollCommand extends Command {
     async exec(message, args) {
         let user = await new User(message.author.id).update();
 
-        if (user.currency < args.amount || (args.amount == 'all' && u.currency == 0))
-                return message.channel.send('ERROR: Insufficient funds');
+        if (user.currency < args.amount || (args.amount == 'all' && user.currency == 0))
+            return message.channel.send('ERROR: Insufficient funds');
 
-            if (args.amount == 0) 
-                return message.channel.send('ERROR: Cannot bet 0');
+        if (args.amount == 0) 
+            return message.channel.send('ERROR: Cannot bet 0');
 
-            let profit = 0;
-            let d1 = Math.floor((Math.random() * 6) + 1);
-            let d2 = Math.floor((Math.random() * 6) + 1);
+        let profit = 0;
+        let d1 = Math.floor((Math.random() * 6) + 1);
+        let d2 = Math.floor((Math.random() * 6) + 1);
 
-            const canvas = createCanvas(200, 100);
-            const ctx = canvas.getContext('2d');
+        const canvas = createCanvas(200, 100);
+        const ctx = canvas.getContext('2d');
 
-            const d1Img = await loadImage(diceImgLinks[d1 - 1]);
-            const d2Img = await loadImage(diceImgLinks[d2 - 1]);
-            ctx.drawImage(d1Img, 0, 0, 100, canvas.height);
-            ctx.drawImage(d2Img, 100, 0, 100, canvas.height);
+        const d1Img = await loadImage(diceImgLinks[d1 - 1]);
+        const d2Img = await loadImage(diceImgLinks[d2 - 1]);
+        ctx.drawImage(d1Img, 0, 0, 100, canvas.height);
+        ctx.drawImage(d2Img, 100, 0, 100, canvas.height);
 
-            const attachment = new MessageAttachment(canvas.toBuffer(), 'diceRoll.png');
+        const attachment = new MessageAttachment(canvas.toBuffer(), 'diceRoll.png');
 
-            const embed = new MessageEmbed().attachFiles(attachment).setImage('attachment://diceRoll.png');
+        const embed = new MessageEmbed().attachFiles(attachment).setImage('attachment://diceRoll.png');
 
-            embed.setTitle('Roll result');
-            embed.setColor(`#C4FAF8`);
+        embed.setTitle('Roll result');
+        embed.setColor(`#C4FAF8`);
 
-            let actualResult = '';
+        let actualResult = '';
 
-            if (d1 + d2 > 7) {
-                actualResult = 'high';
-            } else if (d1 + d2 < 7) {
-                actualResult = 'low';
-            } else if (d1 + d2 == 7) {
-                actualResult = 'seven';
-            }
+        if (d1 + d2 > 7) {
+            actualResult = 'high';
+        } else if (d1 + d2 < 7) {
+            actualResult = 'low';
+        } else if (d1 + d2 == 7) {
+            actualResult = 'seven';
+        }
 
-            if (args.option === actualResult && actualResult != 'seven') {
-                profit = args.amount;
-                u.setWins(u.wins + 1);
-            } else if (args.option === actualResult && actualResult == 'seven') {
-                profit = 4 * args.amount;
-                u.setWins(u.wins + 1);
-            } else {
-                profit = -1 * args.amount;
-                u.setLosses(u.losses + 1);
-            }
+        if (args.option === actualResult && actualResult != 'seven') {
+            profit = args.amount;
+            user.setWins(u.wins + 1);
+        } else if (args.option === actualResult && actualResult == 'seven') {
+            profit = 4 * args.amount;
+            user.setWins(u.wins + 1);
+        } else {
+            profit = -1 * args.amount;
+            user.setLosses(u.losses + 1);
+        }
 
-            u.setCurrency(u.currency + profit);
+        user.setCurrency(u.currency + profit);
 
-            let net = profit > 0 ? 'gained' : 'lost';
+        let net = profit > 0 ? 'gained' : 'lost';
 
-            embed.setDescription(`You ${net} ${Math.abs(profit)} coins.`);
+        embed.setDescription(`You ${net} ${Math.abs(profit)} coins.`);
 
-            embed.addField('Your prediction: ', args.option, true);
-            embed.addField('Actual result: ', `${parseInt(d1 + d2)} (${actualResult})`, true);
+        embed.addField('Your prediction: ', args.option, true);
+        embed.addField('Actual result: ', `${parseInt(d1 + d2)} (${actualResult})`, true);
 
-            message.channel.send({ embed });
+        message.channel.send({ embed });
 
     }
 }
