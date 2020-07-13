@@ -13,7 +13,7 @@ class PassiveMoneyListener extends Listener {
         const chance = Math.floor(Math.random() * 100);
         if (chance <= 10) {
             let user = await new User(message.author.id).update();
-            user.setCurrency(user.currency + 100 + 10(user.rank - 1));
+            user.setCurrency(user.currency + 100 + 10 * (user.rank - 1));
         }
     }
 }
