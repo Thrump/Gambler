@@ -40,7 +40,7 @@ class RollCommand extends Command {
         if (user.currency < args.amount || (args.amount == 'all' && user.currency == 0))
             return message.channel.send('ERROR: Insufficient funds');
 
-        if (args.amount == 0) 
+        if (args.amount == 0)
             return message.channel.send('ERROR: Cannot bet 0');
 
         let profit = 0;
@@ -74,16 +74,16 @@ class RollCommand extends Command {
 
         if (args.option === actualResult && actualResult != 'seven') {
             profit = args.amount;
-            user.setWins(u.wins + 1);
+            user.setWins(user.wins + 1);
         } else if (args.option === actualResult && actualResult == 'seven') {
             profit = 4 * args.amount;
-            user.setWins(u.wins + 1);
+            user.setWins(user.wins + 1);
         } else {
             profit = -1 * args.amount;
-            user.setLosses(u.losses + 1);
+            user.setLosses(user.losses + 1);
         }
 
-        user.setCurrency(u.currency + profit);
+        user.setCurrency(user.currency + profit);
 
         let net = profit > 0 ? 'gained' : 'lost';
 
@@ -96,4 +96,4 @@ class RollCommand extends Command {
     }
 }
 
-module.exports = RollCommand; 
+module.exports = RollCommand;
