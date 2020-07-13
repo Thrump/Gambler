@@ -14,7 +14,7 @@ class RollCommand extends Command {
             aliases: ['roll'],
             ownerOnly: false,
             description: {
-                desc: "",
+                desc: "Gamble your money by guessing whether the sum of two dice rolled will be lower than seven, higher than seven, or is seven.",
                 format: "$roll (H/L/S) (amount)",
                 example: "$roll H 50"
             },
@@ -35,10 +35,9 @@ class RollCommand extends Command {
     }
 
     async exec(message, args) {
-        let user = new User(message.author.id);
+        let user = await new User(message.author.id).update();
 
-        user.update().then(async (u) => {
-            if (u.currency < args.amount || (args.amount == 'all' && u.currency == 0))
+        if (user.currency < args.amount || (args.amount == 'all' && u.currency == 0))
                 return message.channel.send('ERROR: Insufficient funds');
 
             if (args.amount == 0) 
@@ -94,8 +93,6 @@ class RollCommand extends Command {
             embed.addField('Actual result: ', `${parseInt(d1 + d2)} (${actualResult})`, true);
 
             message.channel.send({ embed });
-
-        });
 
     }
 }
