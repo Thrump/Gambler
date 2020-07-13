@@ -93,7 +93,6 @@ class RollCommand extends Command {
         embed.addField('Actual result: ', `${parseInt(d1 + d2)} (${actualResult})`, true);
 
         message.channel.send({ embed });
-
     }
 }
 
