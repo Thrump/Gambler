@@ -52,7 +52,7 @@ class RPSCommand extends Command {
 
         if (botOption == args.option) 
             tie = true;
-        else if (botOption == 'rock' && args.option == 'paper' || botOption == 'paper' && args.option == 'scissors' || botOption == 'scissors' && args.option == 'rock')
+        else if ((botOption == 'rock' && args.option == 'paper') || (botOption == 'paper' && args.option == 'scissors') || (botOption == 'scissors' && args.option == 'rock'))
             userWin = true;
 
         if (userWin && !tie) {
@@ -72,9 +72,13 @@ class RPSCommand extends Command {
 
         if (netGain != 0) {
             let net = netGain > 0 ? 'gained' : 'lost';
-            embed.setDescription(`You ${net} ${Math.abs(netGain)} coins.`);
+            if (netGain > 0) {
+                embed.setDescription(`**You won!** \nYou gained ${Math.abs(netGain)} coins.`);
+            } else if (netGain < 0) {
+                embed.setDescription(`**You lost :(** \nYou lost ${Math.abs(netGain)} coins.`);
+            }
         } else {
-            embed.setDescription('No change in your coin amount.');
+            embed.setDescription('**You tied!** \nNo change in your coin amount.');
         }
 
         embed.addField('Your move: ', args.option, false);
