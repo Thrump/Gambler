@@ -70,13 +70,10 @@ class RPSCommand extends Command {
         embed.setTitle('Rock-Paper-Scissors result');
         embed.setColor(`#C4FAF8`);
 
-        if (netGain != 0) {
-            let net = netGain > 0 ? 'gained' : 'lost';
-            if (netGain > 0) {
-                embed.setDescription(`**You won!** \nYou gained ${Math.abs(netGain)} coins.`);
-            } else if (netGain < 0) {
-                embed.setDescription(`**You lost :(** \nYou lost ${Math.abs(netGain)} coins.`);
-            }
+        if (netGain > 0) {
+            embed.setDescription(`**You won!** \nYou gained ${Math.abs(netGain)} coins.`);
+        } else if (netGain < 0) {
+            embed.setDescription(`**You lost :(** \nYou lost ${Math.abs(netGain)} coins.`);
         } else {
             embed.setDescription('**You tied!** \nNo change in your coin amount.');
         }
