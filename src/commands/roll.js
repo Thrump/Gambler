@@ -37,6 +37,9 @@ class RollCommand extends Command {
     async exec(message, args) {
         let user = await new User(message.author.id).update();
 
+        if (args.option != 'high' && args.option != 'low' && args.option != 'seven')
+            return message.channel.send('ERROR: Invalid option provided for high/low/seven');
+
         if (user.currency < args.amount || (args.amount == 'all' && user.currency == 0))
             return message.channel.send('ERROR: Insufficient funds');
 
