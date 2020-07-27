@@ -40,14 +40,23 @@ class RPSCommand extends Command {
     async exec(message, args) {
         let user = await new User(message.author.id).update();
 
-        if (args.option != 'rock' && args.option != 'paper' && args.option != 'scissors')
-            return message.channel.send('ERROR: Invalid argument provided for rock/paper/scissors option');
+        const embed = new MessageEmbed();
+        embed.setColor(`#C4FAF8`);
 
-        if (user.currency < args.amount || (args.amount == 'all' && user.currency == 0))
-            return message.channel.send('ERROR: Insufficient funds');
+        if (args.option != 'rock' && args.option != 'paper' && args.option != 'scissors') {
+            embed.setTitle('ERROR: Invalid argument provided for rock/paper/scissors option');
+            return message.channel.send({ embed });
+        }
 
-        if (args.amount == 0)
-            return message.channel.send('ERROR: Cannot bet 0');
+        if (user.currency < args.amount || (args.amount == 'all' && user.currency == 0)) {
+            embed.setTitle('ERROR: Insufficient funds');
+            return message.channel.send({ embed });
+        }
+
+        if (args.amount == 0) {
+            embed.setTitle('ERROR: Cannot bet 0')
+            return message.channel.send({ embed });
+        }
 
         let userWin = false;
         let tie = false;
@@ -80,10 +89,9 @@ class RPSCommand extends Command {
         ctx.drawImage(userImg, 100, 0, 100, canvas.height);
 
         const attachment = new MessageAttachment(canvas.toBuffer(), 'rps.png');
-        const embed = new MessageEmbed().attachFiles(attachment).setImage('attachment://rps.png');
+        embed.attachFiles(attachment).setImage('attachment://rps.png');
 
         embed.setTitle('Rock-Paper-Scissors Result');
-        embed.setColor(`#C4FAF8`);
 
         if (netGain > 0) {
             embed.setDescription(`**You won!** \nYou gained ${Math.abs(netGain)} ${coinEmoji}`);
