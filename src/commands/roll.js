@@ -55,9 +55,10 @@ class RollCommand extends Command {
             return message.channel.send({ embed });
         }
 
+        user.setCurrency(user.currency - args.amount); // User's bet is subtracted from current amount
+
         embed.setTitle('Roll Result');
 
-        let profit = 0;
         let d1 = Math.floor((Math.random() * 6) + 1);
         let d2 = Math.floor((Math.random() * 6) + 1);
 
@@ -74,7 +75,6 @@ class RollCommand extends Command {
         embed.attachFiles(attachment).setImage('attachment://diceRoll.png');
 
         let actualResult = '';
-
         if (d1 + d2 > 7) {
             actualResult = 'high';
         } else if (d1 + d2 < 7) {
@@ -83,22 +83,20 @@ class RollCommand extends Command {
             actualResult = 'seven';
         }
 
+        let profit = 0;
         if (args.option === actualResult && actualResult != 'seven') {
-            profit = args.amount;
+            user.setCurrency(user.currency + args.amount * 2); // User wins (but prediction is not 7); gains twice what they bet
             user.setWins(user.wins + 1);
+            embed.setDescription(`You gained ${parseInt(args.amount)} coins.`);
         } else if (args.option === actualResult && actualResult == 'seven') {
-            profit = 4 * args.amount;
+            user.setCurrency(user.currency + args.amount * 5); // User wins (prediction is 7); net gains 4x their bet
             user.setWins(user.wins + 1);
+            embed.setDescription(`You gained ${parseInt(args.amount * 4)} coins.`);
         } else {
-            profit = -1 * args.amount;
+            // User gains nothing back.
             user.setLosses(user.losses + 1);
+            embed.setDescription(`You lost ${parseInt(args.amount)} coins.`);
         }
-
-        user.setCurrency(user.currency + profit);
-
-        let net = profit > 0 ? 'gained' : 'lost';
-
-        embed.setDescription(`You ${net} ${Math.abs(profit)} coins.`);
 
         embed.addField('Your prediction: ', args.option, true);
         embed.addField('Actual result: ', `${parseInt(d1 + d2)} (${actualResult})`, true);
