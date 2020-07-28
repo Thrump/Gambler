@@ -37,14 +37,25 @@ class RollCommand extends Command {
     async exec(message, args) {
         let user = await new User(message.author.id).update();
 
-        if (args.option != 'high' && args.option != 'low' && args.option != 'seven')
-            return message.channel.send('ERROR: Invalid option provided for high/low/seven');
+        const embed = new MessageEmbed();
+        embed.setColor(`#C4FAF8`);
 
-        if (user.currency < args.amount || (args.amount == 'all' && user.currency == 0))
-            return message.channel.send('ERROR: Insufficient funds');
+        if (args.option == null) {
+            embed.setTitle('ERROR: Invalid argument provided for high/low/seven option');
+            return message.channel.send({ embed })
+        }
 
-        if (args.amount == 0)
-            return message.channel.send('ERROR: Cannot bet 0');
+        if (user.currency < args.amount || (args.amount == 'all' && user.currency == 0)) {
+            embed.setTitle('ERROR: Insufficient funds');
+            return message.channel.send({ embed });
+        }
+
+        if (args.amount == 0) {
+            embed.setTitle('ERROR: Cannot bet 0');
+            return message.channel.send({ embed });
+        }
+
+        embed.setTitle('Roll Result');
 
         let profit = 0;
         let d1 = Math.floor((Math.random() * 6) + 1);
@@ -60,10 +71,7 @@ class RollCommand extends Command {
 
         const attachment = new MessageAttachment(canvas.toBuffer(), 'diceRoll.png');
 
-        const embed = new MessageEmbed().attachFiles(attachment).setImage('attachment://diceRoll.png');
-
-        embed.setTitle('Roll result');
-        embed.setColor(`#C4FAF8`);
+        embed.attachFiles(attachment).setImage('attachment://diceRoll.png');
 
         let actualResult = '';
 
