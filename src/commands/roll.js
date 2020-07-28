@@ -6,6 +6,8 @@ const { createCanvas, loadImage } = require('canvas');
 User = require('../models/user').User
 client = require('../../main').client
 
+const coinEmoji = "<:coins:729903134536630314>";
+
 const diceImgLinks = ["https://cdn.discordapp.com/emojis/730765874763399168.png?v=1", "https://cdn.discordapp.com/emojis/730765922062827535.png?v=1", "https://cdn.discordapp.com/emojis/730765974999138377.png?v=1", "https://cdn.discordapp.com/emojis/730765993210544128.png?v=1", "https://cdn.discordapp.com/emojis/730766014349836369.png?v=1", "https://cdn.discordapp.com/emojis/730766033723457587.png?v=1"];
 
 class RollCommand extends Command {
@@ -37,16 +39,28 @@ class RollCommand extends Command {
     async exec(message, args) {
         let user = await new User(message.author.id).update();
 
-        if (args.option != 'high' && args.option != 'low' && args.option != 'seven')
-            return message.channel.send('ERROR: Invalid option provided for high/low/seven');
+        const embed = new MessageEmbed();
+        embed.setColor(`#C4FAF8`);
 
-        if (user.currency < args.amount || (args.amount == 'all' && user.currency == 0))
-            return message.channel.send('ERROR: Insufficient funds');
+        if (args.option == null) {
+            embed.setTitle('ERROR: Invalid argument provided for high/low/seven option');
+            return message.channel.send({ embed })
+        }
 
-        if (args.amount == 0)
-            return message.channel.send('ERROR: Cannot bet 0');
+        if (user.currency < args.amount || (args.amount == 'all' && user.currency == 0)) {
+            embed.setTitle('ERROR: Insufficient funds');
+            return message.channel.send({ embed });
+        }
 
-        let profit = 0;
+        if (args.amount == 0) {
+            embed.setTitle('ERROR: Cannot bet 0');
+            return message.channel.send({ embed });
+        }
+
+        user.setCurrency(user.currency - args.amount); // User's bet is subtracted from current amount
+
+        embed.setTitle('Roll Result');
+
         let d1 = Math.floor((Math.random() * 6) + 1);
         let d2 = Math.floor((Math.random() * 6) + 1);
 
@@ -60,13 +74,9 @@ class RollCommand extends Command {
 
         const attachment = new MessageAttachment(canvas.toBuffer(), 'diceRoll.png');
 
-        const embed = new MessageEmbed().attachFiles(attachment).setImage('attachment://diceRoll.png');
-
-        embed.setTitle('Roll result');
-        embed.setColor(`#C4FAF8`);
+        embed.attachFiles(attachment).setImage('attachment://diceRoll.png');
 
         let actualResult = '';
-
         if (d1 + d2 > 7) {
             actualResult = 'high';
         } else if (d1 + d2 < 7) {
@@ -75,22 +85,20 @@ class RollCommand extends Command {
             actualResult = 'seven';
         }
 
+        let profit = 0;
         if (args.option === actualResult && actualResult != 'seven') {
-            profit = args.amount;
+            user.setCurrency(user.currency + args.amount * 2); // User wins (but prediction is not 7); gains twice what they bet
             user.setWins(user.wins + 1);
+            embed.setDescription(`You gained ${parseInt(args.amount)} ${coinEmoji}`);
         } else if (args.option === actualResult && actualResult == 'seven') {
-            profit = 4 * args.amount;
+            user.setCurrency(user.currency + args.amount * 5); // User wins (prediction is 7); net gains 4x their bet
             user.setWins(user.wins + 1);
+            embed.setDescription(`You gained ${parseInt(args.amount * 4)} ${coinEmoji}`);
         } else {
-            profit = -1 * args.amount;
+            // User gains nothing back.
             user.setLosses(user.losses + 1);
+            embed.setDescription(`You lost ${parseInt(args.amount)} ${coinEmoji}`);
         }
-
-        user.setCurrency(user.currency + profit);
-
-        let net = profit > 0 ? 'gained' : 'lost';
-
-        embed.setDescription(`You ${net} ${Math.abs(profit)} coins.`);
 
         embed.addField('Your prediction: ', args.option, true);
         embed.addField('Actual result: ', `${parseInt(d1 + d2)} (${actualResult})`, true);
