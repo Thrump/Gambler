@@ -6,6 +6,8 @@ const { createCanvas, loadImage } = require('canvas');
 User = require('../models/user').User
 client = require('../../main').client
 
+const coinEmoji = "<:coins:729903134536630314>";
+
 const diceImgLinks = ["https://cdn.discordapp.com/emojis/730765874763399168.png?v=1", "https://cdn.discordapp.com/emojis/730765922062827535.png?v=1", "https://cdn.discordapp.com/emojis/730765974999138377.png?v=1", "https://cdn.discordapp.com/emojis/730765993210544128.png?v=1", "https://cdn.discordapp.com/emojis/730766014349836369.png?v=1", "https://cdn.discordapp.com/emojis/730766033723457587.png?v=1"];
 
 class RollCommand extends Command {
@@ -87,15 +89,15 @@ class RollCommand extends Command {
         if (args.option === actualResult && actualResult != 'seven') {
             user.setCurrency(user.currency + args.amount * 2); // User wins (but prediction is not 7); gains twice what they bet
             user.setWins(user.wins + 1);
-            embed.setDescription(`You gained ${parseInt(args.amount)} coins.`);
+            embed.setDescription(`You gained ${parseInt(args.amount)} ${coinEmoji}`);
         } else if (args.option === actualResult && actualResult == 'seven') {
             user.setCurrency(user.currency + args.amount * 5); // User wins (prediction is 7); net gains 4x their bet
             user.setWins(user.wins + 1);
-            embed.setDescription(`You gained ${parseInt(args.amount * 4)} coins.`);
+            embed.setDescription(`You gained ${parseInt(args.amount * 4)} ${coinEmoji}`);
         } else {
             // User gains nothing back.
             user.setLosses(user.losses + 1);
-            embed.setDescription(`You lost ${parseInt(args.amount)} coins.`);
+            embed.setDescription(`You lost ${parseInt(args.amount)} ${coinEmoji}`);
         }
 
         embed.addField('Your prediction: ', args.option, true);
