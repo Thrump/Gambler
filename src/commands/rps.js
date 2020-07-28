@@ -58,26 +58,10 @@ class RPSCommand extends Command {
             return message.channel.send({ embed });
         }
 
-        let userWin = false;
-        let tie = false;
-        let netGain = 0;
+        user.setCurrency(user.currency - args.amount); // User's bet is subtracted from their current amount
+
         let rand = Math.floor((Math.random() * 3) + 1);
         let botOption = botOptions[rand - 1];
-
-        if (botOption == args.option) 
-            tie = true;
-        else if ((botOption == 'rock' && args.option == 'paper') || (botOption == 'paper' && args.option == 'scissors') || (botOption == 'scissors' && args.option == 'rock'))
-            userWin = true;
-
-        if (userWin && !tie) {
-            netGain = args.amount;
-            user.setWins(user.wins + 1);
-        } else if (!userWin && !tie) {
-            netGain = args.amount * -1;
-            user.setLosses(user.losses + 1);
-        }
-
-        user.setCurrency(user.currency + netGain);
 
         const canvas = createCanvas(200, 100);
         const ctx = canvas.getContext('2d');
@@ -88,21 +72,25 @@ class RPSCommand extends Command {
         ctx.drawImage(botImg, 0, 0, 100, canvas.height);
         ctx.drawImage(userImg, 100, 0, 100, canvas.height);
 
+        embed.setTitle('Rock-Paper-Scissors Result');
         const attachment = new MessageAttachment(canvas.toBuffer(), 'rps.png');
         embed.attachFiles(attachment).setImage('attachment://rps.png');
 
-        embed.setTitle('Rock-Paper-Scissors Result');
-
-        if (netGain > 0) {
-            embed.setDescription(`**You won!** \nYou gained ${Math.abs(netGain)} ${coinEmoji}`);
-        } else if (netGain < 0) {
-            embed.setDescription(`**You lost :(** \nYou lost ${Math.abs(netGain)} ${coinEmoji}`);
-        } else {
-            embed.setDescription(`**You tied!** \nNo change to your ${coinEmoji}`);
-        }
-
         embed.addField('Opponent: ', botOption, true);        
         embed.addField('You: ', args.option, true);
+
+        if (botOption == args.option) {
+            user.setCurrency(user.currency + args.amount); // User ties, gains back what they bet
+            embed.setDescription(`**You tied!** \nNo change to your ${coinEmoji}`);
+        } else if ((botOption == 'rock' && args.option == 'paper') || (botOption == 'paper' && args.option == 'scissors') || (botOption == 'scissors' && args.option == 'rock')) {
+            user.setCurrency(user.currency + args.amount * 2); // User wins, gains double what they bet
+            user.setWins(user.wins + 1);
+            embed.setDescription(`**You won!** \nYou gained ${args.amount} ${coinEmoji}`);
+        } else {
+            // User loses, gains no money back
+            user.setLosses(user.losses + 1);
+            embed.setDescription(`**You lost :(** \nYou lost ${args.amount} ${coinEmoji}`);
+        }
 
         message.channel.send({ embed });
 
