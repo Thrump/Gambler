@@ -1,6 +1,7 @@
 const { Command } = require("discord-akairo");
 const { User } = require("../models/user");
 
+const coinEmoji = "<:coins:729903134536630314>";
 class DailyCommand extends Command {
     constructor() {
         super('daily', {
@@ -22,7 +23,7 @@ class DailyCommand extends Command {
         const embed = {
             color: `#C4FAF8`,
             title: `AWARDED`,
-            description: `You\'ve recieved your ${30000 + 1000 * (user.rank - 1)} coins\nCome back in 24 hours!`
+            description: `You\'ve recieved your ${30000 + 1000 * (user.rank - 1)} ${coinEmoji}\nCome back in 24 hours!`
         }
         return message.channel.send({ embed });
     }
