@@ -2,6 +2,7 @@ const { Command } = require('discord-akairo');
 const { MessageEmbed } = require('discord.js');
 User = require('../models/user').User;
 
+const coinEmoji = "<:coins:729903134536630314>";
 class RankUpCommand extends Command {
     constructor() {
         super('rankup', {
@@ -24,7 +25,7 @@ class RankUpCommand extends Command {
             embed = {
                 color: '#C4FAF8',
                 title: 'ERROR',
-                description: `You need $${nextRank - curr} more before next rankup`
+                description: `You need ${nextRank - curr} ${coinEmoji} more before next rankup`
             };
             return message.channel.send({ embed });
         } else {
@@ -33,7 +34,7 @@ class RankUpCommand extends Command {
             embed = {
                 color: '#C4FAF8',
                 title: 'CONGRATS',
-                description: `You've rankup to ${user.rank}\nNext rank amount: $${100000 + 10000 * (user.rank) + 10000 * (Math.floor(user.rank / 10))}`
+                description: `You've rankup to ${user.rank}\nNext rank amount: ${100000 + 10000 * (user.rank) + 10000 * (Math.floor(user.rank / 10))} ${coinEmoji}`
             };
             return message.channel.send({ embed });
         }

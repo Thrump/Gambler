@@ -8,6 +8,7 @@ const SLOT_EMOJI = ["<:Number_7:399057286024265747>",
     "<:watermelon:399098183881457664>"
 ];
 
+const coinEmoji = "<:coins:729903134536630314>";
 
 class SlotsCommand extends Command {
     constructor() {
@@ -83,10 +84,10 @@ class SlotsCommand extends Command {
             embed.description = finalSlotImage;
             if (number[3] == number[4] && number[3] == number[5]) {
                 const multipler = number[3] == 0 ? 15 : number[3] == 1 ? 4 : number[3] == 2 ? 5 : number[3] == 3 ? 10 : 7;
-                embed.description = embed.description + `\n\n**You won ${parseInt(value * multipler)} coins!**`
+                embed.description = embed.description + `\n\n**You won ${parseInt(value * multipler)} ${coinEmoji}!**`
                 user.setCurrency(user.currency + multipler * (parseInt(value)));
             } else if (number[3] == 1 && number[4] == 1 || number[4] == 1 && number[5] == 1 || number[3] == 1 && number[5] == 1) {
-                embed.description = embed.description + `\n\n**You won ${parseInt(value * 2)} coins!**`
+                embed.description = embed.description + `\n\n**You won ${parseInt(value * 2)} ${coinEmoji}!**`
                 user.setCurrency(user.currency + 2 * (parseInt(value)));
             } else {
                 embed.description = embed.description + `\n\n**Sorry, you lost :(**`;

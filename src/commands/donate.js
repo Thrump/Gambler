@@ -1,6 +1,7 @@
 const { Command } = require('discord-akairo');
 User = require('../models/user').User;
 
+const coinEmoji = "<:coins:729903134536630314>";
 class DonateCommand extends Command {
     constructor() {
         super('donate', {
@@ -41,7 +42,7 @@ class DonateCommand extends Command {
                 reciever.setCurrency(reciever.currency + args.amount);
                 giver.setCurrency(giver.currency - args.amount);
                 embed.title = `DONATED`
-                embed.description = `${args.amount} was given to ${args.user.displayName}`;
+                embed.description = `${args.amount} ${coinEmoji} was given to ${args.user.displayName}`;
             }
         }
 

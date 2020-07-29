@@ -1,6 +1,8 @@
 User = require('../models/user').User;
 const { Command } = require('discord-akairo');
 
+const coinEmoji = "<:coins:729903134536630314>";
+
 class CurrencyCommand extends Command {
     constructor() {
         super('currency', {
@@ -29,7 +31,7 @@ class CurrencyCommand extends Command {
             const account = args.user === null ? message.member : args.user;
             let user = await new User(account.id).update();
             embed.title = `${account.displayName}'s Currency`;
-            embed.description = `Amount: ${user.currency}`;
+            embed.description = `Amount: ${user.currency} ${coinEmoji}`;
         }
 
         return message.channel.send({ embed });

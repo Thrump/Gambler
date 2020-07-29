@@ -1,8 +1,11 @@
 const { Command } = require('discord-akairo');
 const { MessageEmbed } = require('discord.js');
+const { MessageAttachment } = require('discord.js');
 
 User = require('../models/user').User
 client = require('../../main').client
+
+const coinEmoji = "<:coins:729903134536630314>";
 
 class FlipCommand extends Command {
     constructor() {
@@ -49,14 +52,17 @@ class FlipCommand extends Command {
             if (u.currency < args.amount || ((args.amount == 'all' || args.amount == 'half') && u.currency == 0))
                 return message.reply('ERROR: Insufficient funds');
             const randomNumber = Math.round(Math.random());
-            const landed = randomNumber ? "tails" : "heads";
+
+            const attachment = new MessageAttachment(`src/assets/${randomNumber ? 'tails' : 'head'}.png`, `${randomNumber ? 'tails' : 'head'}.png`);
+            embed.attachFiles(attachment).setImage(`attachment://${randomNumber ? 'tails' : 'head'}.png`)
 
 
             const value = args.amount == 'all' ? u.currency : args.amount == 'half' ? u.currency / 2 : Math.floor(args.amount);
             u.setCurrency(u.currency - parseInt(value));
+            embed.setTitle('Flip Results')
             if (args.side == 'heads') {
                 if (randomNumber == 0) {
-                    embed.setDescription(`You won ${parseInt(value) * 2} coins`);
+                    embed.setDescription(`You won ${parseInt(value) * 2} ${coinEmoji}`);
                     u.setCurrency(u.currency + 2 * parseInt(value));
                     u.setWins(u.wins + 1);
                 } else {
@@ -65,7 +71,7 @@ class FlipCommand extends Command {
                 }
             } else {
                 if (randomNumber == 1) {
-                    embed.setDescription(`You won ${parseInt(value) * 2} coins`);
+                    embed.setDescription(`You won ${parseInt(value) * 2} ${coinEmoji}`);
                     u.setCurrency(u.currency + 2 * parseInt(value));
                     u.setWins(u.wins + 1);
                 } else {

@@ -1,7 +1,7 @@
 const { Command } = require('discord-akairo');
 const { User } = require('../models/user');
 
-
+const coinEmoji = "<:coins:729903134536630314>";
 class RemoveCommand extends Command {
     constructor() {
         super('remove', {
@@ -44,7 +44,7 @@ class RemoveCommand extends Command {
                 const amount = args.amount > user.currency ? user.currency : args.amount;
                 user.setCurrency(user.currency - amount);
             });
-            embed.description = `**User(s) has lost ${args.amount} coins**`;
+            embed.description = `**User(s) has lost ${args.amount} ${coinEmoji}**`;
         }
         message.channel.send({ embed });
     }
