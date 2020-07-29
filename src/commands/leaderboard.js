@@ -66,7 +66,7 @@ class LeaderboardCommand extends Command {
                 const displayName = guild.get(element.user_id).user.tag;
                 if ((type == "rank" && element.rank != 1) || (type == "currency" && element.currency != 0)) {
                     embed.fields.push({
-                        name: `${args.page == 1 || index == 9 ? '' : args.page - 1}${index == 9 && args.page != 1 ? pages * 10 : index + 1}. ${displayName}`,
+                        name: `${args.page == 1 || index == 9 ? '' : args.page - 1}${index == 9 && args.page != 1 ? args.page * 10 : index + 1}. ${displayName}`,
                         value: `${type == 'rank' ? 'Rank ' + element.rank : element.currency + ' <:coins:729903134536630314>'}`,
                     })
                 }
