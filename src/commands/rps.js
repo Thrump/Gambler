@@ -44,17 +44,17 @@ class RPSCommand extends Command {
         embed.setColor(`#C4FAF8`);
 
         if (args.option != 'rock' && args.option != 'paper' && args.option != 'scissors') {
-            embed.setTitle('ERROR: Invalid argument provided for rock/paper/scissors option');
+            embed.setDescription('ERROR: Invalid argument provided for rock/paper/scissors option');
             return message.channel.send({ embed });
         }
 
         if (user.currency < args.amount || (args.amount == 'all' && user.currency == 0)) {
-            embed.setTitle('ERROR: Insufficient funds');
+            embed.setDescription('ERROR: Insufficient funds');
             return message.channel.send({ embed });
         }
 
         if (args.amount == 0) {
-            embed.setTitle('ERROR: Cannot bet 0')
+            embed.setDescription('ERROR: Cannot bet 0')
             return message.channel.send({ embed });
         }
 
