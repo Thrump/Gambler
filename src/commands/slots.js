@@ -8,7 +8,7 @@ const SLOT_EMOJI = ["<:Number_7:399057286024265747>",
     "<:watermelon:399098183881457664>"
 ];
 
-const coinEmoji = "<:coins:729903134536630314>";
+const coinEmoji = "<:coin:754568123201618011>";
 
 class SlotsCommand extends Command {
     constructor() {

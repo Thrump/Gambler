@@ -5,7 +5,7 @@ const { MessageAttachment } = require('discord.js');
 User = require('../models/user').User
 client = require('../../main').client
 
-const coinEmoji = "<:coins:729903134536630314>";
+const coinEmoji = "<:coin:754568123201618011>";
 
 class FlipCommand extends Command {
     constructor() {

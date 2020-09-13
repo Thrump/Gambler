@@ -6,7 +6,7 @@ const { createCanvas, loadImage } = require('canvas');
 User = require('../models/user').User
 client = require('../../main').client
 
-const coinEmoji = "<:coins:729903134536630314>";
+const coinEmoji = "<:coin:754568123201618011>";
 
 const diceImgLinks = ["https://cdn.discordapp.com/emojis/730765874763399168.png?v=1", "https://cdn.discordapp.com/emojis/730765922062827535.png?v=1", "https://cdn.discordapp.com/emojis/730765974999138377.png?v=1", "https://cdn.discordapp.com/emojis/730765993210544128.png?v=1", "https://cdn.discordapp.com/emojis/730766014349836369.png?v=1", "https://cdn.discordapp.com/emojis/730766033723457587.png?v=1"];
 

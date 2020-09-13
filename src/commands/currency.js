@@ -1,7 +1,7 @@
 User = require('../models/user').User;
 const { Command } = require('discord-akairo');
 
-const coinEmoji = "<:coins:729903134536630314>";
+const coinEmoji = "<:coin:754568123201618011>";
 
 class CurrencyCommand extends Command {
     constructor() {
