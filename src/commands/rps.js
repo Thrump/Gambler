@@ -6,7 +6,7 @@ const { createCanvas, loadImage } = require('canvas');
 User = require('../models/user').User
 client = require('../../main').client
 
-const coinEmoji = "<:coin:754568123201618011>";
+const coinEmoji = "<:coins:729903134536630314>";
 
 const botOptions = ['rock', 'paper', 'scissors'];
 const imgLinks = ["https://cdn.discordapp.com/emojis/737275263129354251.png?v=1", "https://cdn.discordapp.com/emojis/737288503490117713.png?v=1", "https://cdn.discordapp.com/emojis/737289554137972806.png?v=1"];
@@ -85,11 +85,7 @@ class RPSCommand extends Command {
         const attachment = new MessageAttachment(canvas.toBuffer(), 'rps.png');
         embed.attachFiles(attachment).setImage('attachment://rps.png');
 
-<<<<<<< HEAD
         embed.addField('Opponent: ', botOption, true);        
-=======
-        embed.addField('Opponent: ', botOption, true);
->>>>>>> c0c37b60ead7e4dd7c229e62544d674d2f0de827
         embed.addField('You: ', args.option, true);
 
         if (botOption == args.option) {
