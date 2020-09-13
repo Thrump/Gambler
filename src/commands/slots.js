@@ -1,100 +1,109 @@
 const { Command } = require('discord-akairo');
+const { MessageEmbed } = require('discord.js');
+const { MessageAttachment } = require('discord.js');
+const { createCanvas, loadImage } = require('canvas');
+
 User = require('../models/user').User
+client = require('../../main').client
 
-const SLOT_EMOJI = ["<:Number_7:399057286024265747>",
-    "<:cherry:399073094314098699>",
-    "<:banana:399073130074734603>",
-    "<:diamond:399098047105335306>",
-    "<:watermelon:399098183881457664>"
-];
+const coinEmoji = "<:coin:754568123201618011>";
 
-const coinEmoji = "<:coins:729903134536630314>";
+const botOptions = ['rock', 'paper', 'scissors'];
+const imgLinks = ["https://cdn.discordapp.com/emojis/737275263129354251.png?v=1", "https://cdn.discordapp.com/emojis/737288503490117713.png?v=1", "https://cdn.discordapp.com/emojis/737289554137972806.png?v=1"];
 
-class SlotsCommand extends Command {
+class RPSCommand extends Command {
     constructor() {
-        super('slots', {
-            aliases: ['slots', 'sl'],
-            category: 'Money',
+        super('rps', {
+            aliases: ['rps'],
+            ownerOnly: false,
             description: {
-                desc: 'Gamble your money with slots!',
-                format: '$slots {amount}',
-                example: '$slots 100'
+                desc: "Gamble your money by playing a game of Rock-Paper-Scissors.",
+                format: "$rps (R/P/S) (amount)",
+                example: "$rps P 50"
             },
             args: [{
+                id: 'option',
+                type: [
+                    ['rock', 'r'],
+                    ['paper', 'p'],
+                    ['scissors', 'scissor', 's']
+                ],
+            }, {
                 id: 'amount',
                 default: 0
-            }, {
-                id: 'payout',
-                match: 'flag',
-                flag: '--payout'
-            }]
-        })
+            }],
+            category: 'Money'
+        });
     }
 
     async exec(message, args) {
-        const user = await new User(message.author.id).update();
-        const embed = {
-            color: '#C4FAF8'
-        };
-        if (args.payout) {
-            embed.title = `==Slot Machine Payout==`;
-            embed.fields = [{
-                    name: `**Lucky 7's**`,
-                    value: `<:Number_7:399057286024265747> <:Number_7:399057286024265747> <:Number_7:399057286024265747> - 15x`
-                },
-                {
-                    name: `**Diamonds**`,
-                    value: `<:diamond:399098047105335306> <:diamond:399098047105335306> <:diamond:399098047105335306> - 10x`
-                },
-                {
-                    name: `**Watermelons**`,
-                    value: `<:watermelon:399098183881457664> <:watermelon:399098183881457664> <:watermelon:399098183881457664> - 7x`
-                },
-                {
-                    name: `**Bananas**`,
-                    value: `<:banana:399073130074734603> <:banana:399073130074734603> <:banana:399073130074734603> - 5x`
-                },
-                {
-                    name: `**Cherries**`,
-                    value: `<:cherry:399073094314098699> <:cherry:399073094314098699> <:cherry:399073094314098699> - 4x `
-                },
-                {
-                    name: `**Cherries**`,
-                    value: `<:cherry:399073094314098699> <:cherry:399073094314098699> Any Order -  2x`
-                }
-            ]
+        let user = await new User(message.author.id).update();
 
-        } else if (args.amount == 0) {
-            embed.title = `ERROR`;
-            embed.description = `Must give a amount over 0 to bet`;
-        } else if (user.currency < args.amount || ((args.amount == 'all' || args.amount == 'half') && user.currency == 0)) {
-            embed.title = `ERROR`;
-            embed.description = `Insufficient funds`;
-        } else {
-            const value = args.amount == 'all' ? user.currency : args.amount == 'half' ? user.currency / 2 : args.amount;
-            user.setCurrency(user.currency - value);
-            let number = [];
-            for (let i = 0; i < 9; i++) {
-                number.push(Math.floor(Math.random() * 5));
-            }
-            const slotImage1 = `<:transparent:729708731159281664>${SLOT_EMOJI[number[0]] + SLOT_EMOJI[number[1]] + SLOT_EMOJI[number[2]]}<:transparent:729708731159281664>`
-            const slotImage2 = `\n:arrow_forward:${SLOT_EMOJI[number[3]] + SLOT_EMOJI[number[4]] + SLOT_EMOJI[number[5]]}:arrow_backward:`
-            const slotImage3 = `\n<:transparent:729708731159281664>${SLOT_EMOJI[number[6]] + SLOT_EMOJI[number[7]] + SLOT_EMOJI[number[8]]}<:transparent:729708731159281664>`
-            const finalSlotImage = slotImage1 + slotImage2 + slotImage3;
-            embed.description = finalSlotImage;
-            if (number[3] == number[4] && number[3] == number[5]) {
-                const multipler = number[3] == 0 ? 15 : number[3] == 1 ? 4 : number[3] == 2 ? 5 : number[3] == 3 ? 10 : 7;
-                embed.description = embed.description + `\n\n**You won ${parseInt(value * multipler)} ${coinEmoji}!**`
-                user.setCurrency(user.currency + multipler * (parseInt(value)));
-            } else if (number[3] == 1 && number[4] == 1 || number[4] == 1 && number[5] == 1 || number[3] == 1 && number[5] == 1) {
-                embed.description = embed.description + `\n\n**You won ${parseInt(value * 2)} ${coinEmoji}!**`
-                user.setCurrency(user.currency + 2 * (parseInt(value)));
-            } else {
-                embed.description = embed.description + `\n\n**Sorry, you lost :(**`;
-            }
+        const embed = new MessageEmbed();
+        embed.setColor(`#C4FAF8`);
+
+        if (args.amount < 1 || (isNaN(args.amount) && (args.amount != 'all' && args.amount != 'half'))) {
+            embed.setDescription('ERROR: Amount must be higher than 0');
+            return message.channel.send(embed);
         }
+
+        if (args.option != 'rock' && args.option != 'paper' && args.option != 'scissors') {
+            embed.setDescription('ERROR: Invalid argument provided for rock/paper/scissors option');
+            return message.channel.send({ embed });
+        }
+
+        if (user.currency < args.amount || (args.amount == 'all' && user.currency == 0)) {
+            embed.setDescription('ERROR: Insufficient funds');
+            return message.channel.send({ embed });
+        }
+
+        let userBetAmt = 0;
+
+        if (args.amount == 'all') {
+            userBetAmt = user.currency;
+        } else if (args.amount == 'half') {
+            userBetAmt = Math.floor(user.currency / 2);
+        } else {
+            userBetAmt = parseInt(args.amount);
+        }
+
+        user.setCurrency(user.currency - userBetAmt); // User's bet is subtracted from their current amount
+
+        let rand = Math.floor((Math.random() * 3) + 1);
+        let botOption = botOptions[rand - 1];
+
+        const canvas = createCanvas(200, 100);
+        const ctx = canvas.getContext('2d');
+
+        const botImg = await loadImage(imgLinks[rand - 1]);
+        const userImg = await loadImage(imgLinks[botOptions.indexOf(args.option)]);
+
+        ctx.drawImage(botImg, 0, 0, 100, canvas.height);
+        ctx.drawImage(userImg, 100, 0, 100, canvas.height);
+
+        embed.setTitle('Rock-Paper-Scissors Result');
+        const attachment = new MessageAttachment(canvas.toBuffer(), 'rps.png');
+        embed.attachFiles(attachment).setImage('attachment://rps.png');
+
+        embed.addField('Opponent: ', botOption, true);
+        embed.addField('You: ', args.option, true);
+
+        if (botOption == args.option) {
+            user.setCurrency(user.currency + userBetAmt); // User ties, gains back what they bet
+            embed.setDescription(`**You tied!** \nNo change to your ${coinEmoji}`);
+        } else if ((botOption == 'rock' && args.option == 'paper') || (botOption == 'paper' && args.option == 'scissors') || (botOption == 'scissors' && args.option == 'rock')) {
+            user.setCurrency(user.currency + userBetAmt * 2); // User wins, gains double what they bet
+            user.setWins(user.wins + 1);
+            embed.setDescription(`**You won!** \nYou gained ${userBetAmt} ${coinEmoji}`);
+        } else {
+            // User loses, gains no money back
+            user.setLosses(user.losses + 1);
+            embed.setDescription(`**You lost :(** \nYou lost ${userBetAmt} ${coinEmoji}`);
+        }
+
         message.channel.send({ embed });
+
     }
 }
 
-module.exports = SlotsCommand;
+module.exports = RPSCommand;
